@@ -5,11 +5,12 @@ CREATE TYPE user_role AS ENUM ('USER', 'ADMIN');
 CREATE TYPE task_state AS ENUM ('PENDING', 'PROCESSING', 'COMPLETED', 'FAILED');
 
 CREATE TABLE users (
-   id            BIGSERIAL PRIMARY KEY,
-   username      VARCHAR(255) NOT NULL UNIQUE,
-   password_hash VARCHAR(255) NOT NULL,
-   role          user_role NOT NULL DEFAULT 'USER',
-   created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+    id            BIGSERIAL PRIMARY KEY,
+    username      VARCHAR(255) NOT NULL UNIQUE,
+    email         VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role          user_role NOT NULL DEFAULT 'USER',
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 -- сущность, которая хранит данные о файле, который хранится в MinIO
@@ -30,14 +31,14 @@ CREATE INDEX idx_files_storage_user_id ON files_storage(user_id);
 -- версия модели
 
 CREATE TABLE model_version (
-   id                 INTEGER PRIMARY KEY,
-   name               VARCHAR(100) NOT NULL,
-   version            VARCHAR(50) NOT NULL,
-   num_quantiles      INTEGER NOT NULL CHECK (num_quantiles > 0),
-   val_loss           DOUBLE PRECISION,
-   weights_object_key VARCHAR(512) NOT NULL,
-   created_at         TIMESTAMPTZ NOT NULL DEFAULT now(),
-   UNIQUE (name, version)
+    id                 INTEGER PRIMARY KEY,
+    name               VARCHAR(100) NOT NULL,
+    version            VARCHAR(50) NOT NULL,
+    num_quantiles      INTEGER NOT NULL CHECK (num_quantiles > 0),
+    val_loss           DOUBLE PRECISION,
+    weights_object_key VARCHAR(512) NOT NULL,
+    created_at         TIMESTAMPTZ NOT NULL DEFAULT now(),
+    UNIQUE (name, version)
 );
 
 -- сущность, определяющая задачу
@@ -67,10 +68,10 @@ CREATE TABLE analysis_result (
 -- результат по квантилям
 
 CREATE TABLE analysis_result_quantile (
-      task_id BIGINT NOT NULL REFERENCES analysis_result(task_id),
-      tau     DOUBLE PRECISION NOT NULL CHECK (tau > 0 AND tau < 1),
-      value   DOUBLE PRECISION NOT NULL,
-      PRIMARY KEY (task_id, tau)
+    task_id BIGINT NOT NULL REFERENCES analysis_result(task_id),
+    tau     DOUBLE PRECISION NOT NULL CHECK (tau > 0 AND tau < 1),
+    value   DOUBLE PRECISION NOT NULL,
+    PRIMARY KEY (task_id, tau)
 );
 
 CREATE OR REPLACE FUNCTION set_updated_at()

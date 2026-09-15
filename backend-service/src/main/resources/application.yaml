@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: backend-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/galaxy_photoz
+    username: vadim
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+
+server:
+  port: 8080

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroML — Quantile Regression</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard-modal-upload.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Astro<span>ML</span>
+    </div>
+
+    <nav>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#" id="openUpload">Загрузить данные</a>
+        <a href="#">Результаты</a>
+        <a href="#">Модели</a>
+        <a href="#">Графики</a>
+    </nav>
+
+</header>
+
+<main>
+    <!-- Заголовок -->
+
+    <section class="page-header">
+        <h1>Анализ квантильной регрессии</h1>
+    </section>
+
+    <!-- Метрики -->
+    <!-- В пустых значениях будут выводиться точности модели-->
+    <section class="metrics">
+
+        <div class="card">
+            <div class="metric-title">
+                MAE
+            </div>
+            <div class="metric-value">
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="metric-title">
+                MSE
+            </div>
+            <div class="metric-value">
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="metric-title">
+                RMSE
+            </div>
+            <div class="metric-value">
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="metric-title">
+                R²
+            </div>
+            <div class="metric-value">
+
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- График + эксперименты -->
+
+    <section class="dashboard-grid">
+        <!-- График -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Quantile prediction</h2>
+                <span>
+                    Model: <!-- Название модели -->
+                </span>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="quantileChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Последние эксперименты -->
+        <!-- Будут выводиться список по created_at -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Последние эксперименты</h2>
+                <span>Все →</span>
+            </div>
+
+            <div class="experiment">
+                <div>
+                    <div class="experiment-name">
+                        GB Quantile v4
+                    </div>
+
+                    <div class="experiment-date">
+                        Сегодня, 18:42
+                    </div>
+                </div>
+
+                <div class="experiment-score">
+                    <strong>
+                        R² 0.941
+                    </strong>
+                    <span>
+                        MAE 0.0357
+                    </span>
+
+                </div>
+            </div>
+
+            <div class="experiment">
+                <div>
+                    <div class="experiment-name">
+                        CNN Quantile v2
+                    </div>
+
+                    <div class="experiment-date">
+                        Сегодня, 16:13
+                    </div>
+                </div>
+
+                <div class="experiment-score">
+                    <strong>
+                        R² 0.932
+                    </strong>
+                    <span>
+                        MAE 0.0412
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Результаты моделей -->
+
+    <section class="card results">
+
+        <div class="card-header">
+            <h2>Результаты моделей</h2>
+            <span>
+                Последний запуск
+            </span>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Модель</th>
+                <th>MAE</th>
+                <th>MSE</th>
+                <th>RMSE</th>
+                <th>R²</th>
+                <th>Статус</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr>
+                <td>Gradient Boosting Quantile</td>
+                <td>0.0357</td>
+                <td>0.00290</td>
+                <td>0.0539</td>
+                <td>0.9407</td>
+
+                <td>
+                    <span class="badge">
+                        Completed
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>CNN Quantile Regression</td>
+                <td>0.0412</td>
+                <td>0.00381</td>
+                <td>0.0617</td>
+                <td>0.9321</td>
+
+                <td>
+                    <span class="badge">
+                        Completed
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>Random Forest</td>
+                <td>0.0491</td>
+                <td>0.00492</td>
+                <td>0.0701</td>
+                <td>0.9154</td>
+
+                <td>
+                    <span class="badge">
+                        Completed
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>Baseline</td>
+                <td>0.2824</td>
+                <td>0.2589</td>
+                <td>0.5089</td>
+                <td>0.8156</td>
+
+                <td>
+                    <span class="badge">
+                        Completed
+                    </span>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- Файлы -->
+
+    <section class="files">
+
+
+        <!-- Загрузка -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    Загрузить данные
+                </h2>
+
+            </div>
+
+
+            <div class="upload">
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <h3>
+                    Загрузите CSV-файл
+                </h3>
+
+                <p>
+                    Dataset должен содержать признаки
+                    и целевую переменную z_spec
+                </p>
+
+
+                <input
+                        type="file"
+                        id="fileInput"
+                        hidden
+                        accept=".csv"
+                >
+
+
+                <button
+                        id="uploadButton"
+                >
+                    Выбрать файл
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Последние файлы -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    Последние файлы
+                </h2>
+
+                <span>
+                    Все файлы →
+                </span>
+
+            </div>
+
+
+            <div class="file">
+
+                <div class="file-info">
+
+                    <div class="file-icon">
+                        CSV
+                    </div>
+
+                    <div>
+
+                        <div class="file-name">
+                            sdss_galaxies_10000.csv
+                        </div>
+
+                        <div class="file-size">
+                            18.4 MB · 10 000 объектов
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="download">
+                    Открыть
+                </div>
+
+            </div>
+
+
+            <div class="file">
+
+                <div class="file-info">
+
+                    <div class="file-icon">
+                        CSV
+                    </div>
+
+                    <div>
+
+                        <div class="file-name">
+                            validation_set.csv
+                        </div>
+
+                        <div class="file-size">
+                            4.2 MB · 2 000 объектов
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="download">
+                    Открыть
+                </div>
+
+            </div>
+
+
+            <div class="file">
+
+                <div class="file-info">
+
+                    <div class="file-icon">
+                        CSV
+                    </div>
+
+                    <div>
+
+                        <div class="file-name">
+                            cnn_predictions.csv
+                        </div>
+
+                        <div class="file-size">
+                            9.7 MB · 4 000 объектов
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="download">
+                    Открыть
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+    <dialog id="uploadModal">
+        <div class="modal-header">
+            <h2>Загрузка данных</h2>
+            <button id="closeModal" type="button">×</button>
+        </div>
+
+        <div class="upload-area">
+            <p>Выберите изображение</p>
+            <input type="file" id="dataset" accept=".jpg">
+
+            <p id="selectedFile"></p>
+
+        </div>
+
+        <button id="sendButton" type="button" disabled>Отправить данные</button>
+    </dialog>
+
+<script th:src="@{/data/upload-modal.js}"></script>
+
+</body>
+</html>

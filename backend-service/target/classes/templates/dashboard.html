@@ -406,22 +406,20 @@
 </main>
 
 
-    <dialog id="uploadModal">
-        <div class="modal-header">
-            <h2>Загрузка данных</h2>
-            <button id="closeModal" type="button">×</button>
-        </div>
+<dialog id="uploadModal">
+    <div class="modal-header">
+        <h2>Загрузка данных</h2>
+        <button id="closeModal" type="button">×</button>
+    </div>
 
-        <div class="upload-area">
-            <p>Выберите изображение</p>
-            <input type="file" id="dataset" accept=".jpg">
+    <div class="upload-area">
+        <p>Выберите изображение</p>
+        <input type="file" id="dataset" accept=".jpg">
+        <p id="selectedFile"></p>
+    </div>
 
-            <p id="selectedFile"></p>
-
-        </div>
-
-        <button id="sendButton" type="button" disabled>Отправить данные</button>
-    </dialog>
+    <button id="sendButton" type="button" disabled>Отправить данные</button>
+</dialog>
 
 <script th:src="@{/data/upload-modal.js}"></script>
 

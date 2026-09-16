@@ -36,8 +36,7 @@ document.getElementById('registerForm').addEventListener('submit', function (eve
     };
 
     // Отправка данных на сервер
-    fetch('/api/v1/registration' +
-        '', {
+    fetch('/api/v1/registration', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

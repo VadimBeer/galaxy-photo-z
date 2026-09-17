@@ -20,3 +20,20 @@ spring:
 
 server:
   port: 8080
+
+minio:
+  endpoint: http://localhost:9000
+  access-key: vadim
+  secret-key: minio_password_123
+  secure: false
+
+app:
+  upload:
+    max-file-size: 10485760
+    storage-path: /var/data/
+    bucket-name: galaxy-photos
+    allowed-extensions:
+      - jpg
+      - png
+      - fits
+

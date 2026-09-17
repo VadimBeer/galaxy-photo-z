@@ -14,13 +14,25 @@ public class FilesStorage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "file_id")
     private Long id;
 
+    @Column(name = "object_key")
     private String objectKey;
+
+    @Column(name = "original_filename")
     private String originalFileName;
+
+    @Column(name = "content_type")
     private String contentType;
+
+    @Column(name = "size_bytes")
     private Long sizeBytes;
-    private LocalDateTime uploadAt;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

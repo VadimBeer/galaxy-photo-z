@@ -2,7 +2,7 @@ package com.vadimbeer.backendservice;
 
 import com.vadimbeer.backendservice.jpa.UserRepository;
 import com.vadimbeer.backendservice.models.User;
-import com.vadimbeer.backendservice.models.UserRequest;
+import com.vadimbeer.backendservice.DTO.UserRequest;
 import com.vadimbeer.backendservice.service.UserMapperSecurity;
 import com.vadimbeer.backendservice.service.UserService;
 import org.junit.jupiter.api.Test;

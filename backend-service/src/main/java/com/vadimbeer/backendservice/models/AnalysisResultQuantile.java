@@ -22,5 +22,4 @@ public class AnalysisResultQuantile {
     @JoinColumn(name = "task_id")
     private AnalysisResult analysisResult;
 
-
 }

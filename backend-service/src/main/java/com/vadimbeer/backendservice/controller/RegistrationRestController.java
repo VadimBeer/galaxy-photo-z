@@ -1,6 +1,6 @@
 package com.vadimbeer.backendservice.controller;
 
-import com.vadimbeer.backendservice.models.UserRequest;
+import com.vadimbeer.backendservice.DTO.UserRequest;
 import com.vadimbeer.backendservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

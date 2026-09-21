@@ -2,7 +2,7 @@ package com.vadimbeer.backendservice.service;
 
 import com.vadimbeer.backendservice.jpa.UserRepository;
 import com.vadimbeer.backendservice.models.User;
-import com.vadimbeer.backendservice.models.UserRequest;
+import com.vadimbeer.backendservice.DTO.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -3,18 +3,17 @@ package com.vadimbeer.backendservice.config;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
-import io.minio.errors.MinioException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
+
 public class MinioConfig {
 
     private final MinioProperties minioProperties;
     private final UploadProperties uploadProperties;
-
 
     @Bean
     public MinioClient minioClient(){
@@ -42,4 +41,6 @@ public class MinioConfig {
 
         return minioClient;
     }
+
+
 }

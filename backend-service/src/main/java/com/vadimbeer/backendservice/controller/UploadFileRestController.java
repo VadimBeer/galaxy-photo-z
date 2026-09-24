@@ -9,10 +9,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Set;
+
 
 @RestController
 @RequestMapping("api/v1/galaxy-photos")
 public class UploadFileRestController {
+
 
     private FileUploadService fileUploadService;
 
@@ -29,8 +32,7 @@ public class UploadFileRestController {
             return ResponseEntity.badRequest().build();
         }
 
-        String fileName = imgFile.getOriginalFilename();
-        return ResponseEntity.ok(new UploadResponse(fileName));
+        return ResponseEntity.ok(fileUploadService.saveImage(user, imgFile));
     }
 
 }

@@ -43,10 +43,10 @@ public class StorageService {
                             .build()
             );
 
+            log.info("Successfully uploaded image to Minio");
+
         }catch (MinioException e) {
             log.error(e.getMessage());
-        } catch (Exception e){
-           log.error(e.getMessage());
         }
     }
 

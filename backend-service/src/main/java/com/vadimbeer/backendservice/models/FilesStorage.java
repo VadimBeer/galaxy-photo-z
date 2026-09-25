@@ -2,6 +2,7 @@ package com.vadimbeer.backendservice.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +30,8 @@ public class FilesStorage {
     @Column(name = "size_bytes")
     private Long sizeBytes;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "deleted_at")

@@ -35,13 +35,13 @@ public class FileUploadService {
         try {
              file = fileService.saveFileMetadata(
                     objectKey,
-                    imgFile.getName(),
+                    imgFile.getOriginalFilename(),
                     imgFile.getContentType(),
                     imgFile.getSize(),
                     user
             );
         }catch (Exception e){
-            log.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
 
         try {

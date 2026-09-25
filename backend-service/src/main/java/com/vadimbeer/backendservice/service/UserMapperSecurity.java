@@ -18,8 +18,8 @@ public class UserMapperSecurity {
     public User toUser(UserRequest userRequest) {
         return new User(
             null,
-            userRequest.email(),
             userRequest.username(),
+            userRequest.email(),
             passwordEncoder.encode(userRequest.password()),
             User.Role.USER
         );

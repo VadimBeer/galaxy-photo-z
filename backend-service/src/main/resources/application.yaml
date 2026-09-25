@@ -32,8 +32,8 @@ app:
     max-file-size: 10485760
     storage-path: /var/data/
     bucket-name: galaxy-photos
-    allowed-extensions:
-      - jpg
-      - png
-      - fits
+    allowed-file-types:
+      - image/jpeg
+      - image/png
+      - image/fits
 

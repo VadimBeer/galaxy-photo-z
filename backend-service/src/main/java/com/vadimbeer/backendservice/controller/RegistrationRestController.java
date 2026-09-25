@@ -22,9 +22,11 @@ public class RegistrationRestController {
     private Logger logger = LoggerFactory.getLogger(RegistrationRestController.class);
 
     @PostMapping
-    public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> registration(@RequestBody UserRequest userRequest) {
         var id = userService.save(userRequest);
         logger.info("User with id {} has been registered successfully", id);
+        logger.info("Name = {}, Email = {}", userRequest.username(), userRequest.email());
+
         return ResponseEntity.ok().body(id);
     }
 }

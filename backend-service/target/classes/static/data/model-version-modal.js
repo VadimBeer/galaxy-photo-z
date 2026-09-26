@@ -37,6 +37,8 @@ function selectModel(id, itemEl) {
     document.querySelectorAll('.model-item').forEach(el => el.classList.remove('selected'));
     itemEl.classList.add('selected');
     sessionStorage.setItem('selectedModelVersionId', id);
+
+    window.dispatchEvent(new CustomEvent('model-selected', { detail: { modelId: id } }));
 }
 
 openButton.addEventListener("click", (event) => {

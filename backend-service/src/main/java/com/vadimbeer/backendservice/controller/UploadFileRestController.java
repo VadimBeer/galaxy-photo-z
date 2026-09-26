@@ -32,25 +32,16 @@ public class UploadFileRestController {
             @RequestParam MultipartFile imgFile,
             @AuthenticationPrincipal User user
     ) {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        log.info("Authentication: {}", authentication);
-        log.info("Principal: {}", authentication.getPrincipal());
-        log.info("Authenticated: {}", authentication.isAuthenticated());
-        log.info("User from @AuthenticationPrincipal: {}", user);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (user == null) {
             return ResponseEntity.status(401).build();
         }
-
         if (imgFile.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(
-                fileUploadService.saveImage(user, imgFile)
-        );
+        return ResponseEntity.ok(fileUploadService.saveImage(user, imgFile));
     }
 
 }

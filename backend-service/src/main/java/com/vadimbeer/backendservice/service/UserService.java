@@ -24,9 +24,6 @@ public class UserService {
         User newUser = userMapperSecurity.toUser(userRequest);
         newUser = userRepository.save(newUser);
 
-        log.info("email {}, password {}, passwordhash {}", newUser.getEmail(),
-                userRequest.password(), newUser.getPassword());
-
         return newUser.getId().toString();
     }
 

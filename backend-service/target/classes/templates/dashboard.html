@@ -7,34 +7,28 @@
     <title>AstroML — Quantile Regression</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/dashboard-modal-upload.css}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" th:href="@{/css/dashboard-model-version-modal.css}">
 </head>
 
 <body>
-
 <header>
-
     <div class="logo">
         Astro<span>ML</span>
     </div>
-
     <nav>
         <a href="#" class="active">Dashboard</a>
         <a href="#" id="openUpload">Загрузить данные</a>
-        <a href="#">Результаты</a>
-        <a href="#">Модели</a>
-        <a href="#">Графики</a>
+<!--        <a href="#" id="results">Результаты</a>-->
+        <a href="#" id="models">Модели</a>
+<!--        <a href="#" id="charts">Графики</a>-->
     </nav>
-
 </header>
 
 <main>
     <!-- Заголовок -->
-
     <section class="page-header">
         <h1>Анализ квантильной регрессии</h1>
     </section>
-
     <!-- Метрики -->
     <!-- В пустых значениях будут выводиться точности модели-->
     <section class="metrics">
@@ -242,174 +236,16 @@
 
     </section>
 
-
-    <!-- Файлы -->
-
-    <section class="files">
-
-
-        <!-- Загрузка -->
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <h2>
-                    Загрузить данные
-                </h2>
-
-            </div>
-
-
-            <div class="upload">
-
-                <div class="upload-icon">
-                    ↑
-                </div>
-
-                <h3>
-                    Загрузите CSV-файл
-                </h3>
-
-                <p>
-                    Dataset должен содержать признаки
-                    и целевую переменную z_spec
-                </p>
-
-
-                <input
-                        type="file"
-                        id="fileInput"
-                        hidden
-                        accept=".csv"
-                >
-
-
-                <button
-                        id="uploadButton"
-                >
-                    Выбрать файл
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- Последние файлы -->
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <h2>
-                    Последние файлы
-                </h2>
-
-                <span>
-                    Все файлы →
-                </span>
-
-            </div>
-
-
-            <div class="file">
-
-                <div class="file-info">
-
-                    <div class="file-icon">
-                        CSV
-                    </div>
-
-                    <div>
-
-                        <div class="file-name">
-                            sdss_galaxies_10000.csv
-                        </div>
-
-                        <div class="file-size">
-                            18.4 MB · 10 000 объектов
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="download">
-                    Открыть
-                </div>
-
-            </div>
-
-
-            <div class="file">
-
-                <div class="file-info">
-
-                    <div class="file-icon">
-                        CSV
-                    </div>
-
-                    <div>
-
-                        <div class="file-name">
-                            validation_set.csv
-                        </div>
-
-                        <div class="file-size">
-                            4.2 MB · 2 000 объектов
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="download">
-                    Открыть
-                </div>
-
-            </div>
-
-
-            <div class="file">
-
-                <div class="file-info">
-
-                    <div class="file-icon">
-                        CSV
-                    </div>
-
-                    <div>
-
-                        <div class="file-name">
-                            cnn_predictions.csv
-                        </div>
-
-                        <div class="file-size">
-                            9.7 MB · 4 000 объектов
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="download">
-                    Открыть
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
 </main>
 
+<footer>
+    Подвал сайта
+</footer>
 
 <dialog id="uploadModal">
     <div class="modal-header">
         <h2>Загрузка данных</h2>
-        <button id="closeModal" type="button">×</button>
+        <button id="closeModal" type="button">x</button>
     </div>
 
     <div class="upload-area">
@@ -421,7 +257,20 @@
     <button id="sendButton" type="button" disabled>Отправить данные</button>
 </dialog>
 
-<script th:src="@{/data/upload-modal.js}"></script>
+<dialog id="modelVersionModal">
+    <div class="modal-header">
+        <h2>Выбор модели</h2>
+        <button id="closeModelVersionModal" type="button">x</button>
+    </div>
+
+    <div>
+        
+    </div>
+
+</dialog>
+
+<script type="module" th:src="@{/data/upload-modal.js}"></script>
+<script type="module" th:src="@{/data/model-version-modal.js}"></script>
 
 </body>
 </html>

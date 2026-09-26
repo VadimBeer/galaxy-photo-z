@@ -35,12 +35,11 @@ public class LoginRestController {
             HttpServletRequest servletRequest,
             HttpServletResponse servletResponse
     ) {
-
         User user = userService.findByEmail(request.email());
 
         if (user == null ||
-                !userService.existsByPassword(user, request.password())) {
-
+                !userService.existsByPassword(user, request.password()))
+        {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .build();
@@ -53,13 +52,9 @@ public class LoginRestController {
                         user.getAuthorities()
                 );
 
-        SecurityContext context =
-                SecurityContextHolder.createEmptyContext();
-
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authToken);
-
         SecurityContextHolder.setContext(context);
-
         securityContextRepository.saveContext(
                 context,
                 servletRequest,

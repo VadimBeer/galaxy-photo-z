@@ -25,7 +25,6 @@ public class RegistrationRestController {
     public ResponseEntity<?> registration(@RequestBody UserRequest userRequest) {
         var id = userService.save(userRequest);
         logger.info("User with id {} has been registered successfully", id);
-        logger.info("Name = {}, Email = {}", userRequest.username(), userRequest.email());
 
         return ResponseEntity.ok().body(id);
     }

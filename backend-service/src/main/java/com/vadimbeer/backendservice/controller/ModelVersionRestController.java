@@ -1,9 +1,11 @@
 package com.vadimbeer.backendservice.controller;
 
-import com.vadimbeer.backendservice.DTO.ModelVersionRequest;
-import com.vadimbeer.backendservice.models.ModelVersion;
+import com.vadimbeer.backendservice.DTO.ModelVersionMetricsResponse;
+import com.vadimbeer.backendservice.DTO.ModelVersionResponse;
 import com.vadimbeer.backendservice.service.ModelVersionService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +22,18 @@ public class ModelVersionRestController {
     }
 
     @GetMapping("/all")
-    public List<ModelVersionRequest> getAllModels() {
-        return modelVersionService.getAll();
+    public ResponseEntity<List<ModelVersionResponse>> getAllModels() {
+        return ResponseEntity.ok(modelVersionService.getAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ModelVersionMetricsResponse> getModelVersionById(@PathVariable Integer id) {
+        if(id == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        ModelVersionMetricsResponse request = modelVersionService.getById(id);
+
+        return ResponseEntity.ok(request);
     }
 }

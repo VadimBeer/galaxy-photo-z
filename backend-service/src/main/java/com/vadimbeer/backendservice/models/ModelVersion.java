@@ -27,4 +27,16 @@ public class ModelVersion {
 
     @Column(name = "weights_object_key")
     private String weightObjectKey;
+
+    @Column(name = "mae")
+    private Double mae;
+
+    @Column(name = "mse")
+    private Double mse;
+
+    @Column(name = "rmse")
+    private Double rmse;
+
+    @Column(name = "r2")
+    private Double r2;
 }

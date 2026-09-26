@@ -2,5 +2,6 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$PROJECT_DIR$/src/main/java/com/vadimbeer/backendservice/jpa/ModelVersionRepository.java" value="3aeaaeac-a108-47bf-8534-add4a212baa6" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/changelog/v2_add_model_metrics.sql" value="3aeaaeac-a108-47bf-8534-add4a212baa6" />
   </component>
 </project>

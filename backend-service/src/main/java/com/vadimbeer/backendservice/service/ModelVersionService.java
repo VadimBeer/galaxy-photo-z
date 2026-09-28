@@ -30,9 +30,18 @@ public class ModelVersionService {
     public ModelVersionMetricsResponse getById(int id) {
         ModelVersion modelVersion = modelVersionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "ModelVersion with id " + id + " not found")
+                        "ModelVersion with id " + id + " не найдено")
                 );
 
         return modelVersionMapper.toModelVersionMetricsRequest(modelVersion);
+    }
+
+    public ModelVersion getModelVersionById(int id) {
+        ModelVersion modelVersion = modelVersionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "ModelVersion с id " + id + " не найдено"
+                ));
+
+        return modelVersion;
     }
 }

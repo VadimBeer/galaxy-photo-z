@@ -4,6 +4,7 @@ import com.vadimbeer.backendservice.DTO.UploadResponse;
 import com.vadimbeer.backendservice.models.User;
 import com.vadimbeer.backendservice.service.FileUploadService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,8 +33,6 @@ public class UploadFileRestController {
             @RequestParam MultipartFile imgFile,
             @AuthenticationPrincipal User user
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (user == null) {
             return ResponseEntity.status(401).build();
         }

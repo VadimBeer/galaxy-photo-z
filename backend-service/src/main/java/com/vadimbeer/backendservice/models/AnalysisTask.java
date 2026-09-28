@@ -1,6 +1,8 @@
 package com.vadimbeer.backendservice.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "analysis_task")
+@Getter
 public class AnalysisTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +36,15 @@ public class AnalysisTask {
 
     public enum State {
         PENDING, PROCESSING, COMPLETED, FAILED
+    }
+
+
+    // Фабричный метод
+    public static AnalysisTask fabricBuildAnalysisTask(ModelVersion modelVersion, FilesStorage file) {
+        AnalysisTask task = new AnalysisTask();
+        task.modelVersion = modelVersion;
+        task.file = file;
+        task.state = State.PENDING;
+        return task;
     }
 }

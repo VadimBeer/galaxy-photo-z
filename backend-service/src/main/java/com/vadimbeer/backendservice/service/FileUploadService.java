@@ -30,7 +30,7 @@ public class FileUploadService {
 
     public UploadResponse saveImage(User user, MultipartFile imgFile) {
         String objectKey = generateObjectKey();
-        FilesStorage file = null;
+        FilesStorage file;
 
         try {
              file = fileService.saveFileMetadata(

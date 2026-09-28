@@ -22,11 +22,11 @@ spring:
     listener:
       direct:
         retry:
-          enabled=true
-          max-attempts=5
-          initial-interval=2000ms
-          multiplier=2.0
-          max-interval=10000ms
+          enabled: true
+          max: 5
+          initial-interval: 2000ms
+          multiplier: 2.0
+          max-interval: 10000ms
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml

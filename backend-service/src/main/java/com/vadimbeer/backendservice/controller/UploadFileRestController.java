@@ -1,9 +1,13 @@
 package com.vadimbeer.backendservice.controller;
 
+import com.vadimbeer.backendservice.DTO.AnalysisTaskResponse;
 import com.vadimbeer.backendservice.DTO.UploadResponse;
 import com.vadimbeer.backendservice.models.User;
+import com.vadimbeer.backendservice.service.AnalysisService;
+import com.vadimbeer.backendservice.service.AnalysisTaskService;
 import com.vadimbeer.backendservice.service.FileUploadService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +22,22 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/galaxy-photos")
-@Slf4j
 public class UploadFileRestController {
 
 
     private FileUploadService fileUploadService;
+    private AnalysisService analysisService;
 
-    public UploadFileRestController(FileUploadService fileUploadService) {
+    @Autowired
+    public UploadFileRestController(FileUploadService fileUploadService, AnalysisService analysisService) {
         this.fileUploadService = fileUploadService;
+        this.analysisService = analysisService;
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<UploadResponse> uploudFile(
+    public ResponseEntity<AnalysisTaskResponse> uploudFile(
             @RequestParam MultipartFile imgFile,
+            @RequestParam Integer modelId,
             @AuthenticationPrincipal User user
     ) {
         if (user == null) {
@@ -40,7 +47,9 @@ public class UploadFileRestController {
             return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(fileUploadService.saveImage(user, imgFile));
+        AnalysisTaskResponse response = analysisService.submit(user, modelId, imgFile);
+
+        return ResponseEntity.ok(response);
     }
 
 }

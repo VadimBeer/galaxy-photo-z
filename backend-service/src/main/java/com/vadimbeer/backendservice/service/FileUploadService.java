@@ -18,14 +18,12 @@ public class FileUploadService {
 
     private final FileService fileService;
     private final StorageService storageService;
-    private final UploadProperties uploadProperties;
 
     public FileUploadService(FileService fileService, StorageService storageService,
                              UploadProperties uploadProperties
     ) {
         this.fileService = fileService;
         this.storageService = storageService;
-        this.uploadProperties = uploadProperties;
     }
 
     public UploadResponse saveImage(User user, MultipartFile imgFile) {
@@ -64,4 +62,5 @@ public class FileUploadService {
 
         return uuid.toString();
     }
+
 }

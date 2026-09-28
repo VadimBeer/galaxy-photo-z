@@ -1,15 +1,17 @@
 package com.vadimbeer.backendservice.config;
 
 import com.vadimbeer.backendservice.props.RabbitProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class RabbitConfig {
 
-    private RabbitProperties props;
+    private final RabbitProperties props;
 
     @Bean
     public DirectExchange imgExchange() {

@@ -1,7 +1,6 @@
 package com.vadimbeer.backendservice.service;
 
 import com.vadimbeer.backendservice.jpa.AnalysisTaskRepository;
-import com.vadimbeer.backendservice.jpa.ModelVersionRepository;
 import com.vadimbeer.backendservice.models.AnalysisTask;
 import com.vadimbeer.backendservice.models.FilesStorage;
 import com.vadimbeer.backendservice.models.ModelVersion;
@@ -23,6 +22,7 @@ public class AnalysisTaskService {
         return repository.save(analysisTask);
     }
 
+    @Transactional
     public AnalysisTask create(Integer modelId, FilesStorage filesStorage) {
         ModelVersion modelVersion = modelVersionService.getModelVersionById(modelId);
         AnalysisTask analysisTask = save(

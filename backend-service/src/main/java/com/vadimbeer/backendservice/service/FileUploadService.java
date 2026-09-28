@@ -1,7 +1,7 @@
 package com.vadimbeer.backendservice.service;
 
 import com.vadimbeer.backendservice.DTO.UploadResponse;
-import com.vadimbeer.backendservice.config.UploadProperties;
+import com.vadimbeer.backendservice.props.UploadProperties;
 import com.vadimbeer.backendservice.models.FilesStorage;
 import com.vadimbeer.backendservice.models.User;
 import lombok.extern.slf4j.Slf4j;

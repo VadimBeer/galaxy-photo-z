@@ -1,6 +1,6 @@
 package com.vadimbeer.backendservice;
 
-import com.vadimbeer.backendservice.config.UploadProperties;
+import com.vadimbeer.backendservice.props.UploadProperties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

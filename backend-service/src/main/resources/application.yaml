@@ -14,6 +14,12 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
@@ -36,4 +42,12 @@ app:
       - image/jpeg
       - image/png
       - image/fits
+  rabbitmq:
+    img-queue-name: astroml.img
+    chart-queue-name: astroml.chart
+    exchange-img: img_exchange
+    exchange-chart: chart_exchange
+    img-routing-key: img
+    chart-routing-key: chart
+
 

@@ -1,6 +1,6 @@
 package com.vadimbeer.backendservice;
 
-import com.vadimbeer.backendservice.config.UploadProperties;
+import com.vadimbeer.backendservice.props.UploadProperties;
 import com.vadimbeer.backendservice.service.StorageService;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;

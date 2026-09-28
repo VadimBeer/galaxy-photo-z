@@ -1,4 +1,4 @@
-package com.vadimbeer.backendservice.config;
+package com.vadimbeer.backendservice.props;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

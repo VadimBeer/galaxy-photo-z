@@ -1,5 +1,7 @@
 package com.vadimbeer.backendservice.config;
 
+import com.vadimbeer.backendservice.props.MinioProperties;
+import com.vadimbeer.backendservice.props.UploadProperties;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;

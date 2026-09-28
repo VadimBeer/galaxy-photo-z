@@ -1,4 +1,4 @@
-package com.vadimbeer.backendservice.config;
+package com.vadimbeer.backendservice.props;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

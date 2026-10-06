@@ -1,20 +1,26 @@
+import os
 import pika
 
-img_queue = 'astroml/img'
-chart_queue = 'astroml/chart'
-username_rabbit = 'guest'
-password_rabbit = 'guest'
+RABBIT_HOST = os.getenv("RABBIT_HOST", "localhost")
+RABBIT_PORT = int(os.getenv("RABBIT_PORT", "5672"))
+RABBIT_USER = os.getenv("RABBIT_USER", "guest")
+RABBIT_PASSWORD = os.getenv("RABBIT_PASSWORD", "guest")
 
-credentials = pika.PlainCredentials(username_rabbit, password_rabbit)
-parameters = pika.ConnectionParameters(
-    host='localhost',
-    port=5672,
-    credentials=credentials
-)
+IMG_EXCHANGE = "img_exchange"
+CHART_EXCHANGE = "chart_exchange"
+IMG_QUEUE = "astroml"            # сверьте с app.rabbitmq в Spring
+IMG_ROUTING_KEY = "img"          # сверьте с тем, что шлёт Java
+CHART_ROUTING_KEY = "chart"      # сверьте с биндингом на стороне Java
 
-connection = pika.BlockingConnection(parameters)
-channel = connection.channel()
 
-channel.queue_declare(queue=img_queue, durable=True)
-channel.queue_declare(queue=chart_queue, durable=True)
+def get_connection() -> pika.BlockingConnection:
+    credentials = pika.PlainCredentials(RABBIT_USER, RABBIT_PASSWORD)
+    params = pika.ConnectionParameters(
+        host=RABBIT_HOST,
+        port=RABBIT_PORT,
+        credentials=credentials,
+        heartbeat=600,
+        blocked_connection_timeout=300,
+    )
 
+    return pika.BlockingConnection(params)

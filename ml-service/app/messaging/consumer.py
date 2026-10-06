@@ -1,7 +1,7 @@
 import json
 import logging
-
-from app import config
+from app.config import rabbit_config
+from app.storage import minio_client
 from app.shemas.shemas import ImgTaskMessage
 
 log = logging.getLogger(__name__)
@@ -23,19 +23,19 @@ def callback(ch, method, properties, body):
 
 
 def consumer():
-    connection = config.get_connection()
+    connection = rabbit_config.get_connection()
     channel = connection.channel()
 
-    channel.exchange_declare(config.IMG_EXCHANGE, exchange_type="direct", durable=True)
-    channel.queue_declare(queue=config.IMG_QUEUE, durable=True)
+    channel.exchange_declare(rabbit_config.IMG_EXCHANGE, exchange_type="direct", durable=True)
+    channel.queue_declare(queue=rabbit_config.IMG_QUEUE, durable=True)
     channel.queue_bind(
-        queue=config.IMG_QUEUE,
-        exchange=config.IMG_EXCHANGE,
-        routing_key=config.IMG_ROUTING_KEY,
+        queue=rabbit_config.IMG_QUEUE,
+        exchange=rabbit_config.IMG_EXCHANGE,
+        routing_key=rabbit_config.IMG_ROUTING_KEY,
     )
 
     channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(queue=config.IMG_QUEUE, on_message_callback=callback)
+    channel.basic_consume(queue=rabbit_config.IMG_QUEUE, on_message_callback=callback)
 
     log.info("Ожидание сообщений...")
     try:

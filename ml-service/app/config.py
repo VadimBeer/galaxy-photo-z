@@ -8,10 +8,9 @@ RABBIT_PASSWORD = os.getenv("RABBIT_PASSWORD", "guest")
 
 IMG_EXCHANGE = "img_exchange"
 CHART_EXCHANGE = "chart_exchange"
-IMG_QUEUE = "astroml"            # сверьте с app.rabbitmq в Spring
-IMG_ROUTING_KEY = "img"          # сверьте с тем, что шлёт Java
-CHART_ROUTING_KEY = "chart"      # сверьте с биндингом на стороне Java
-
+IMG_QUEUE = "astroml"
+IMG_ROUTING_KEY = "img"
+CHART_ROUTING_KEY = "chart"
 
 def get_connection() -> pika.BlockingConnection:
     credentials = pika.PlainCredentials(RABBIT_USER, RABBIT_PASSWORD)

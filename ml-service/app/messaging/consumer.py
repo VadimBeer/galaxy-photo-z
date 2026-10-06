@@ -2,22 +2,24 @@ import json
 import logging
 
 from app import config
+from app.shemas.shemas import ImgTaskMessage
 
 log = logging.getLogger(__name__)
+
+def to_img_task(body: bytes) -> ImgTaskMessage:
+    return ImgTaskMessage.model_validate_json(body)
 
 
 def callback(ch, method, properties, body):
     try:
-        message = json.loads(body.decode())
+        message = to_img_task(body)
         log.info("Получено сообщение: %s", message)
         ch.basic_ack(delivery_tag=method.delivery_tag)
     except json.JSONDecodeError:
         log.exception("Невалидный JSON, сообщение отбрасывается")
         ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
-    except Exception:
-        log.exception("Ошибка обработки")
-        # requeue=False, чтобы не зациклиться на «ядовитом» сообщении
-        ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
+
+
 
 
 def consumer():
@@ -32,7 +34,6 @@ def consumer():
         routing_key=config.IMG_ROUTING_KEY,
     )
 
-    # по одному сообщению за раз: модель тяжёлая
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue=config.IMG_QUEUE, on_message_callback=callback)
 

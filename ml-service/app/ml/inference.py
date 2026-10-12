@@ -4,6 +4,9 @@ import torchvision.transforms as transforms
 from scipy.interpolate import PchipInterpolator
 import matplotlib.pyplot as plt
 import numpy as np
+import io
+
+from app.service.image_service import fig_to_image, chart_to_bytes
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -17,22 +20,26 @@ def regression_quantile(model: torch.nn.Module, image: Image.Image, transform: t
 
     return output
 
-def make_quntile_chart(quantiles: torch.Tensor):
-    z_grid = np.linspace(quantiles.min(), quantiles.max(), 200)
-    tau = np.linspace(0.05, 0.95, 19)
+def make_quantile_chart(quantiles: torch.Tensor) -> plt.Figure:
+    q = quantiles.detach().cpu().numpy().flatten()
+    q = np.sort(q)                      # PCHIP требует возрастающих значений
+    q = q + np.arange(len(q)) * 1e-9    # защита от одинаковых квантилей
 
-    cdf = PchipInterpolator(quantiles.flatten(), tau)
-    cdf_vals = cdf(z_grid)
+    tau = np.linspace(0.05, 0.95, len(q))
+    z_grid = np.linspace(q.min(), q.max(), 200)
+
+    cdf_vals = PchipInterpolator(q, tau)(z_grid)
 
     pdf = np.gradient(cdf_vals, z_grid)
     pdf = np.maximum(pdf, 0)
-    pdf /= np.trapz(pdf, z_grid)
+    pdf /= np.trapezoid(pdf, z_grid)
 
-    plt.plot(z_grid, pdf)
-    plt.xlabel("z", fontsize=14)
-    plt.ylabel("PDF", fontsize=14)
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.title("PDF для photo-z CNN", fontsize=14)
-    plt.legend()
-    plt.show()
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.plot(z_grid, pdf, label="PDF")
+    ax.set_xlabel("z", fontsize=14)
+    ax.set_ylabel("PDF", fontsize=14)
+    ax.tick_params(labelsize=12)
+    ax.set_title("PDF для photo-z CNN", fontsize=14)
+    ax.legend()
+
+    return fig

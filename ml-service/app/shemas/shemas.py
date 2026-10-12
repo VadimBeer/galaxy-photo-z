@@ -9,3 +9,6 @@ class ImgTaskMessage(BaseModel):
     user_id: int
     model_version: int
     object_key: str
+
+    def get_object_key(self) -> str:
+        return self.object_key

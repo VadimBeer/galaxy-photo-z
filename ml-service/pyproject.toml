@@ -4,12 +4,14 @@ version = "0.1.0"
 requires-python = ">=3.9"
 dependencies = [
     "fastapi>=0.128.8",
+    "matplotlib>=3.9.4",
     "minio>=7.2.20",
     "numpy>=2.0.2",
     "pika>=1.3",
     "pillow>=11.3.0",
     "pydantic>=2.13.5",
     "python3-pika>=0.9.14",
+    "scipy>=1.13.1",
     "torch>=2.8.0",
     "torchvision>=0.23.0",
     "uvicorn>=0.39.0",

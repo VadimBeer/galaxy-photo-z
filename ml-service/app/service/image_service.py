@@ -1,9 +1,6 @@
 from PIL import Image
 import io
 
-from app.storage.minio_client import download_galaxy_photo
-
-
 def preprocessing_image(image: bytes) -> Image.Image:
     img = Image.open(io.BytesIO(image))
 

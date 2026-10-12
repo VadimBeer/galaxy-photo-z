@@ -12,7 +12,7 @@ def minio_client() -> Minio:
         secure=False,
     )
 
-def download_galaxy_photo(object_key: str) -> bytes:
+def download_galaxy_photo(object_key: str):
     file = minio_client().get_object(minio_config.PHOTOS_BUCKET, object_key)
 
     try:
@@ -21,5 +21,6 @@ def download_galaxy_photo(object_key: str) -> bytes:
         file.close()
         file.release_conn()
         print(e)
-
+    finally:
+        file.close()
 

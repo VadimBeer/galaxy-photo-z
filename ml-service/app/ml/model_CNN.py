@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-class SimpleCNN(nn.Module):
+class CNN(nn.Module):
     def __init__(self, num_quantiles):
         super().__init__()
 

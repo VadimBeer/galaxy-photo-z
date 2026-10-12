@@ -1,58 +1,43 @@
-const modal =
-    document.getElementById("uploadModal");
-const openButton =
-    document.getElementById("openUpload");
-const closeButton =
-    document.getElementById("closeModal");
-const fileInput =
-    document.getElementById("dataset");
-const sendButton =
-    document.getElementById("sendButton");
-const selectedFile =
-    document.getElementById("selectedFile");
+const modal = document.getElementById("uploadModal");
+const openButton = document.getElementById("openUpload");
+const closeButton = document.getElementById("closeModal");
+const fileInput = document.getElementById("dataset");
+const sendButton = document.getElementById("sendButton");
+const selectedFile = document.getElementById("selectedFile");
 
-/*
- * Открытие modal
- */
+let selectedModelId = sessionStorage.getItem("selectedModelVersionId");
+
+// Кнопка активна, только если выбраны и файл, и модель
+function updateSendButton() {
+    sendButton.disabled = !(fileInput.files.length > 0 && selectedModelId);
+}
+
+window.addEventListener("model-selected", (event) => {
+    selectedModelId = event.detail.modelId;
+    updateSendButton();
+});
 
 openButton.addEventListener("click", (event) => {
     event.preventDefault();
     modal.showModal();
 });
 
-/*
- * Закрытие modal
- */
-
 closeButton.addEventListener("click", () => {
     modal.close();
 });
 
-
-/*
- * Выбор файла
- */
-
 fileInput.addEventListener("change", () => {
     if (fileInput.files.length === 0) {
         selectedFile.textContent = "";
-        sendButton.disabled = true;
-        return;
+    } else {
+        selectedFile.textContent = `Выбран файл: ${fileInput.files[0].name}`;
     }
-
-    const file = fileInput.files[0];
-    selectedFile.textContent = `Выбран файл: ${file.name}`;
-    sendButton.disabled = false;
+    updateSendButton();
 });
-
-
-/*
- * Отправка файла
- */
 
 sendButton.addEventListener("click", async () => {
     const file = fileInput.files[0];
-    if (!file) {
+    if (!file || !selectedModelId) {
         return;
     }
 
@@ -61,6 +46,7 @@ sendButton.addEventListener("click", async () => {
 
     const formData = new FormData();
     formData.append("imgFile", file);
+    formData.append("modelId", selectedModelId);
 
     try {
         const response = await fetch("/api/v1/galaxy-photos", {
@@ -72,7 +58,7 @@ sendButton.addEventListener("click", async () => {
             throw new Error(`Ошибка HTTP: ${response.status}`);
         }
         const result = await response.json();
-        console.log("Ответ сервера:", result);
+        console.log("Задача создана:", result);
 
         alert("Файл успешно загружен, анализ запущен.");
         modal.close();
@@ -80,9 +66,9 @@ sendButton.addEventListener("click", async () => {
         console.error("Ошибка отправки:", error);
         alert("Не удалось загрузить файл. Попробуйте снова.");
     } finally {
-        sendButton.disabled = false;
         sendButton.textContent = "Отправить";
+        updateSendButton();
     }
-
 });
 
+updateSendButton();

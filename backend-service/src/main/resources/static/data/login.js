@@ -16,6 +16,8 @@ async function login(email, password) {
         throw new Error(`Ошибка входа: ${res.status}`);
     }
 
+
+
     return await res.json();
 }
 
@@ -32,7 +34,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         const data = await login(email, password);
         console.log("Успешный вход:", data);
 
-
+        window.location.href = "/dashboard";
     } catch (err) {
         errorEl.textContent = err.message;
         errorEl.style.display = "block";

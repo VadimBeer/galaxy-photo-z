@@ -7,6 +7,7 @@ import com.vadimbeer.backendservice.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,9 +38,7 @@ public class LoginRestController {
     ) {
         User user = userService.findByEmail(request.email());
 
-        if (user == null ||
-                !userService.existsByPassword(user, request.password()))
-        {
+        if (user == null || !userService.existsByPassword(user, request.password())) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .build();
@@ -60,6 +59,7 @@ public class LoginRestController {
                 servletRequest,
                 servletResponse
         );
+
 
         return ResponseEntity.ok(
                 userService.toUserLoginResponse(user)

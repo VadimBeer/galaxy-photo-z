@@ -6,12 +6,14 @@ import com.vadimbeer.backendservice.models.FilesStorage;
 import com.vadimbeer.backendservice.models.ModelVersion;
 import com.vadimbeer.backendservice.DTO.TaskCreatedEvent;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AnalysisTaskService {
 
     private final AnalysisTaskRepository repository;
@@ -25,6 +27,8 @@ public class AnalysisTaskService {
     @Transactional
     public AnalysisTask create(Integer modelId, FilesStorage filesStorage) {
         ModelVersion modelVersion = modelVersionService.getModelVersionById(modelId);
+        log.info("Версия модели {}", modelVersion.getName() + "_" + modelVersion.getVersion());
+
         AnalysisTask analysisTask = save(
                 AnalysisTask.fabricBuildAnalysisTask(modelVersion, filesStorage));
 

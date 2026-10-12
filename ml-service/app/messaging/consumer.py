@@ -20,8 +20,6 @@ def callback(ch, method, properties, body):
         ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
 
 
-
-
 def consumer():
     connection = rabbit_config.get_connection()
     channel = connection.channel()

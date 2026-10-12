@@ -22,6 +22,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/galaxy-photos")
+@Slf4j
 public class UploadFileRestController {
 
 

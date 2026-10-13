@@ -1,4 +1,3 @@
-
 from app.ml.model_loader import load_model
 from app.service.image_service import preprocessing_image
 from app.shemas.shemas import ImgTaskMessage

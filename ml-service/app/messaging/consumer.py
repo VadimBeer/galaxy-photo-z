@@ -3,6 +3,8 @@ import logging
 from app.config import rabbit_config
 from app.storage import minio_client
 from app.shemas.shemas import ImgTaskMessage
+from app.service.pipeline import process
+import pika
 
 log = logging.getLogger(__name__)
 
@@ -14,7 +16,10 @@ def callback(ch, method, properties, body):
     try:
         message = to_img_task(body)
         log.info("Получено сообщение: %s", message)
+        log.info("body=%s", body.decode())
         ch.basic_ack(delivery_tag=method.delivery_tag)
+
+        process(message)
     except json.JSONDecodeError:
         log.exception("Невалидный JSON, сообщение отбрасывается")
         ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)

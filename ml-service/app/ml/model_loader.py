@@ -31,7 +31,7 @@ def load_model(model_id: int) -> nn.Module:
 
     if dto.model_name == "CNN_V1":
         model = CNN(num_quantiles)
-        model.load_state_dict(torch.load("app/ml/model_CNN/CNN_V1.pth"))
+        # model.load_state_dict(torch.load("app/ml/model_CNN/CNN_V1.pth"))
 
     if dto.model_name == "CNN_V2":
         model = CNN(num_quantiles)

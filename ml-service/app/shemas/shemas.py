@@ -32,5 +32,6 @@ class ChartTaskPublisher(BaseModel):
     chart_object_key: str
     quantiles: list[float] | None
     median_quantile: float | None
-    status: Status
+    state: Status
     error_message: str | None = None
+    content_type: str | None = None

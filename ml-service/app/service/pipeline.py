@@ -32,7 +32,8 @@ def process(task: ImgTaskMessage) -> ChartTaskPublisher:
                                       chart_object_key=chart_name,
                                       quantiles=quantiles,
                                       median_quantile=median,
-                                      status=Status.COMPLETED
+                                      state=Status.COMPLETED,
+                                      content_type="image/png"
                                       )
 
         return chart_task
@@ -43,7 +44,7 @@ def process(task: ImgTaskMessage) -> ChartTaskPublisher:
                                   user_id=task.user_id,
                                   quantiles=None,
                                   median_quantile=None,
-                                  status=Status.FAILED,
+                                  state=Status.FAILED,
                                   error_message=str(e)[:1000]
                                   )
 

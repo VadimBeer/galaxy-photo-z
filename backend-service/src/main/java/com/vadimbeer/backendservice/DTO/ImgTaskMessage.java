@@ -2,7 +2,6 @@ package com.vadimbeer.backendservice.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 //DTO для передачи на сторону Python
 public record ImgTaskMessage(
         @JsonProperty("task_id") Long taskId,

@@ -3,6 +3,8 @@ package com.vadimbeer.backendservice.service;
 import com.vadimbeer.backendservice.props.UploadProperties;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.StatObjectArgs;
+import io.minio.StatObjectResponse;
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +54,23 @@ public class StorageService {
 
     private boolean typeImage(String contentType){
         return uploadProperties.getAllowedFileTypes().contains(contentType);
+    }
+
+    public long sizeFileInStorage(String objectKey) {
+        try{
+            StatObjectResponse  statObjectResponse = minioClient.statObject(
+                    StatObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(objectKey)
+                            .build()
+            );
+
+            long size = statObjectResponse.size();
+
+            return size;
+        } catch (MinioException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

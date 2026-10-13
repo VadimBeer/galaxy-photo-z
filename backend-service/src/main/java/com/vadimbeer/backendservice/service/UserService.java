@@ -5,6 +5,7 @@ import com.vadimbeer.backendservice.DTO.UserResponse;
 import com.vadimbeer.backendservice.jpa.UserRepository;
 import com.vadimbeer.backendservice.models.User;
 import com.vadimbeer.backendservice.DTO.UserRequest;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,5 +42,11 @@ public class UserService {
 
     public UserLoginResponse toUserLoginResponse(User user) {
         return userMapper.toUserResponse(user);
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("User not found with id: " + id)
+        );
     }
 }

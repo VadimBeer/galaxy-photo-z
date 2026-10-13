@@ -1,5 +1,7 @@
 package com.vadimbeer.backendservice.models;
 
+import com.vadimbeer.backendservice.DTO.ChartTaskConsume;
+import jakarta.annotation.PreDestroy;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,4 +44,24 @@ public class FilesStorage {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private User user;
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        deletedAt = LocalDateTime.now();
+    }
+
+    public static FilesStorage fabricChartFileStorage(String objectKey, User user, String filename, Long size) {
+        FilesStorage filesStorage = new FilesStorage();
+        filesStorage.objectKey = objectKey;
+        filesStorage.user = user;
+        filesStorage.originalFileName = filename;
+        filesStorage.sizeBytes = size;
+
+        return filesStorage;
+    }
 }

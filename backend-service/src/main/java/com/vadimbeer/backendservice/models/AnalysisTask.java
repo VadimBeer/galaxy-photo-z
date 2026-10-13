@@ -39,7 +39,6 @@ public class AnalysisTask {
         PENDING, PROCESSING, COMPLETED, FAILED
     }
 
-
     // Фабричный метод
     public static AnalysisTask fabricBuildAnalysisTask(ModelVersion modelVersion, FilesStorage file) {
         AnalysisTask task = new AnalysisTask();

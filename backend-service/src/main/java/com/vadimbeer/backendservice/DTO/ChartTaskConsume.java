@@ -12,6 +12,7 @@ public record ChartTaskConsume(
         List<Float> quantiles,
         Float medianQuantile,
         AnalysisTask.State state,
-        String errorMessage
+        String errorMessage,
+        String contentType
 ) {
 }

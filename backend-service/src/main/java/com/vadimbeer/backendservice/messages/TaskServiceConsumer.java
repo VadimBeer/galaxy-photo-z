@@ -26,7 +26,7 @@ public class TaskServiceConsumer {
     //получение сообщения со стороны Python
     //изменение статуса задачи
     //сохранение графика в БД
-    //
+
     @RabbitListener(queues = "${app.rabbitmq.chart-queue-name}")
     public void consume(ChartTaskConsume message) {
         log.info("Received a task consume message: {}", message);
@@ -36,6 +36,7 @@ public class TaskServiceConsumer {
             log.info("Updated task: {}", task);
             FilesStorage filesStorage = chartFileService.saveChartFile(message);
             log.info("Saved chart file: {}", filesStorage);
+            //todo реализовать сохранение данных о квантилях
 
         }catch (EntityNotFoundException e){
             log.error("Task with id {} not found", message.taskId());

@@ -45,7 +45,8 @@ public class SecurityConfig {
                                 "/api/v1/registration",
                                 "/api/v1/login"
                         ).permitAll()
-                        .requestMatchers("/api/v1/galaxy-photos/**")
+                        .requestMatchers("/api/v1/galaxy-photos/**",
+                                "/api/v1/experiments/**")
                         .authenticated()
                         .anyRequest().permitAll()
                 )

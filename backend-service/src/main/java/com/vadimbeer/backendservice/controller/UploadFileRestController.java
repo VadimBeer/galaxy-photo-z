@@ -25,7 +25,6 @@ import java.util.Set;
 @Slf4j
 public class UploadFileRestController {
 
-
     private FileUploadService fileUploadService;
     private AnalysisService analysisService;
 

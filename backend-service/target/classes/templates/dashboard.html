@@ -74,54 +74,36 @@
 
         <!-- Последние эксперименты -->
         <!-- Будут выводиться список по created_at -->
-        <div class="card">
+        <div class="card" >
             <div class="card-header">
                 <h2>Последние эксперименты</h2>
-                <span>Все →</span>
+<!--                <span>Все →</span>-->
             </div>
 
-            <div class="experiment">
-                <div>
-                    <div class="experiment-name">
-                        GB Quantile v4
-                    </div>
+            <div id="last-experiments"></div>
 
-                    <div class="experiment-date">
-                        Сегодня, 18:42
-                    </div>
-                </div>
+<!--            <div class="experiment">-->
+<!--                <div>-->
+<!--                    <div class="experiment-name">-->
+<!--                        GB Quantile v4-->
+<!--                    </div>-->
 
-                <div class="experiment-score">
-                    <strong>
-                        R² 0.941
-                    </strong>
-                    <span>
-                        MAE 0.0357
-                    </span>
+<!--                    <div class="experiment-date">-->
+<!--                        Сегодня, 18:42-->
+<!--                    </div>-->
 
-                </div>
-            </div>
+<!--                </div>-->
 
-            <div class="experiment">
-                <div>
-                    <div class="experiment-name">
-                        CNN Quantile v2
-                    </div>
+<!--                <div class="experiment-score">-->
+<!--                    <strong>-->
+<!--                        R² 0.941-->
+<!--                    </strong>-->
+<!--                    <span>-->
+<!--                        MAE 0.0357-->
+<!--                    </span>-->
 
-                    <div class="experiment-date">
-                        Сегодня, 16:13
-                    </div>
-                </div>
-
-                <div class="experiment-score">
-                    <strong>
-                        R² 0.932
-                    </strong>
-                    <span>
-                        MAE 0.0412
-                    </span>
-                </div>
-            </div>
+<!--                </div>-->
+<!--            </div>-->
 
         </div>
 
@@ -255,6 +237,7 @@
 <script type="module" th:src="@{/data/upload-modal.js}"></script>
 <script type="module" th:src="@{/data/model-version-modal.js}"></script>
 <script type="module" th:src="@{/data/dashboard-metrics.js}"></script>
+<script type="module" th:src="@{/data/experiments.js}"></script>
 
 </body>
 </html>

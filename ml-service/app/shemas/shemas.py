@@ -11,6 +11,10 @@ class Status(str, Enum):
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
 
+class QuantilePoint(BaseModel):
+    tau: float
+    value: float
+
 # прием сообщения
 class ImgTaskMessage(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
@@ -29,8 +33,8 @@ class ChartTaskPublisher(BaseModel):
 
     task_id: int
     user_id: int
-    chart_object_key: str
-    quantiles: list[float] | None
+    chart_object_key: str | None = None
+    quantiles: list[QuantilePoint] | None = None
     median_quantile: float | None
     state: Status
     error_message: str | None = None

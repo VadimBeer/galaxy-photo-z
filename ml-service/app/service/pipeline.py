@@ -1,10 +1,11 @@
 import logging
+import numpy as np
 
 from app.ml.inference import regression_quantile, make_quantile_chart
 from app.ml.model_CNN import transform_image_cnn
 from app.ml.model_loader import load_model
 from app.service.image_service import preprocessing_image
-from app.shemas.shemas import ImgTaskMessage, ChartTaskPublisher, Status
+from app.shemas.shemas import ImgTaskMessage, ChartTaskPublisher, Status, QuantilePoint
 from app.storage.minio_client import download_galaxy_photo, upload_chart
 
 log = logging.getLogger(__name__)
@@ -23,8 +24,9 @@ def process(task: ImgTaskMessage) -> ChartTaskPublisher:
 
         chart_name = upload_chart(plt, task)
 
-        quantiles = prediction.squeeze().tolist()
-        median = quantiles[len(quantiles) // 2]
+        values = np.sort(prediction.squeeze().tolist())
+        quantiles = [QuantilePoint(tau=t, value=float(v)) for t, v in zip(TAUS, values)]
+        median = float(values[len(values) // 2])
 
         log.info("Отправлен: %s",chart_name)
         chart_task = ChartTaskPublisher(task_id=task.task_id,

@@ -10,7 +10,7 @@ public record ChartTaskConsume(
         Long userId,
         String chartObjectKey,
         List<QuantilePoint> quantiles,
-        Float medianQuantile,
+        Double medianQuantile,
         AnalysisTask.State state,
         String errorMessage,
         String contentType

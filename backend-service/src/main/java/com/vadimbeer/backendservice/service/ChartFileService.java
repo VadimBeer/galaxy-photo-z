@@ -37,8 +37,6 @@ public class ChartFileService {
 
         User user = userService.findById(chartTaskConsume.userId());
 
-
-
         FilesStorage chart = fileService.saveFileMetadata(
                 chartTaskConsume.chartObjectKey(),
                 chartTaskConsume.chartObjectKey(),

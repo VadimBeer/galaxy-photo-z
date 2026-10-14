@@ -8,6 +8,8 @@ function renderExperiments(experiments) {
         return;
     }
 
+
+
     experiments.forEach(experiment => {
         const item = document.createElement('div');
         item.className = 'experiment';
@@ -21,6 +23,7 @@ function renderExperiments(experiments) {
 
             <div class="experiment-score">
                 <strong></strong>
+                <span></span>
             </div>
         `;
 
@@ -31,7 +34,15 @@ function renderExperiments(experiments) {
             `Эксперимент №${experiment.id}`;
 
         item.querySelector('.experiment-score strong').textContent =
-            experiment.status;
+            experiment.state;
+
+
+
+        const medianEl = item.querySelector('.experiment-score span');
+
+        medianEl.textContent = experiment.median == null
+            ? 'Медиана: —'
+            : `Медиана: ${experiment.median.toFixed(4)}`;
 
         experimentsListEl.appendChild(item);
     });

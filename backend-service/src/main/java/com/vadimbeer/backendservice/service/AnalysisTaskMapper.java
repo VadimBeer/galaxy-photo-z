@@ -25,7 +25,7 @@ public class AnalysisTaskMapper {
     public List<AnalysisTaskDto> toDtos(List<AnalysisTask> tasks, List<Double> medians) {
         List<AnalysisTaskDto> dtos = new ArrayList<>();
         for (int i  = 0; i < tasks.size(); i++) {
-            dtos.add(toDto(tasks.get(i), /*medians.get(i))*/ 0.0));
+            dtos.add(toDto(tasks.get(i), medians.get(i)) );
         }
 
         return dtos;

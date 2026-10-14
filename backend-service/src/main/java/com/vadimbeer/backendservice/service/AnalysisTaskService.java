@@ -3,11 +3,8 @@ package com.vadimbeer.backendservice.service;
 import com.vadimbeer.backendservice.DTO.AnalysisTaskDto;
 import com.vadimbeer.backendservice.DTO.ChartTaskConsume;
 import com.vadimbeer.backendservice.jpa.AnalysisTaskRepository;
-import com.vadimbeer.backendservice.models.AnalysisTask;
-import com.vadimbeer.backendservice.models.FilesStorage;
-import com.vadimbeer.backendservice.models.ModelVersion;
+import com.vadimbeer.backendservice.models.*;
 import com.vadimbeer.backendservice.DTO.TaskCreatedEvent;
-import com.vadimbeer.backendservice.models.User;
 import jakarta.persistence.EntityNotFoundException;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +28,7 @@ public class AnalysisTaskService {
     private final ModelVersionService modelVersionService;
     private final ApplicationEventPublisher event;
     private final AnalysisTaskMapper mapper;
+    private final AnalysisResultService analysisResultService;
 
     public AnalysisTask save(AnalysisTask analysisTask) {
         return repository.save(analysisTask);
@@ -80,9 +79,13 @@ public class AnalysisTaskService {
 
     public List<AnalysisTaskDto> findRecentByUserId(User user) {
         List<AnalysisTask> tasksList = repository.findRecentByUserId(user.getId(), PageRequest.of(0, 7));
+        List<Double> analysisResults = analysisResultService.findByAnalysisTaskIds(
+                tasksList.stream()
+                        .map(AnalysisTask::getId)
+                        .collect(Collectors.toCollection(ArrayList::new))
+        );
 
-
-        List<AnalysisTaskDto> dtoList = mapper.toDtos(tasksList, null);
+        List<AnalysisTaskDto> dtoList = mapper.toDtos(tasksList, analysisResults);
         return dtoList;
     }
 }

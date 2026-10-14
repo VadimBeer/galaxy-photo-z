@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 public class AnalysisResult {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -21,4 +20,18 @@ public class AnalysisResult {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    public AnalysisResult() {
+
+    }
+
+    public AnalysisResult(AnalysisTask task, Double median) {
+        this.analysisTask = task;
+        this.median = median;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
 }

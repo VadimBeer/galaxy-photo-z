@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Эксперимент — AstroML</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        [hidden] {
+            display: none !important;
+        }
+
+        .experiment-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .experiment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .experiment-grid h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .experiment-image {
+            display: block;
+            width: 100%;
+            height: 360px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #0f1117;
+        }
+
+        .experiment-params {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 14px 20px;
+        }
+
+        .experiment-params dt,
+        .experiment-message {
+            color: #9da3b4;
+        }
+
+        .experiment-params dd {
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .experiment-refresh {
+            padding: 10px 18px;
+            border: 0;
+            border-radius: 8px;
+            background: #6c8cff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .experiment-refresh:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .quantiles-wrapper {
+            overflow-x: auto;
+        }
+
+        @media (max-width: 800px) {
+            .experiment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experiment-image {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="logo">Astro<span>ML</span></div>
+    <nav>
+        <a th:href="@{/dashboard}">← На главную</a>
+    </nav>
+</header>
+
+<main id="experiment"
+      th:attr="data-task-id=${taskId}"
+      aria-busy="true">
+
+    <div class="page-header experiment-heading">
+        <h1 id="experiment-title">Эксперимент</h1>
+
+        <button id="refresh-experiment"
+                class="experiment-refresh"
+                type="button">
+            Обновить
+        </button>
+    </div>
+
+    <p id="experiment-message"
+       class="experiment-message"
+       role="status"
+       aria-live="polite">
+        Загрузка эксперимента…
+    </p>
+
+    <div id="experiment-content" hidden>
+        <div class="experiment-grid">
+            <section class="card">
+                <h2>Исходное изображение</h2>
+
+                <p id="photo-message" class="experiment-message"></p>
+
+                <img id="experiment-photo"
+                     class="experiment-image"
+                     alt="Исходное изображение галактики"
+                     hidden>
+            </section>
+
+            <section class="card">
+                <h2>График результата</h2>
+
+                <p id="chart-message" class="experiment-message"></p>
+
+                <img id="experiment-chart"
+                     class="experiment-image"
+                     alt="График квантилей"
+                     hidden>
+            </section>
+
+            <section class="card">
+                <h2>Параметры эксперимента</h2>
+
+                <dl id="experiment-params" class="experiment-params">
+                    <dt>Файл</dt>
+                    <dd id="experiment-filename">—</dd>
+
+                    <dt>Дата создания</dt>
+                    <dd id="experiment-created">—</dd>
+
+                    <dt>Модель</dt>
+                    <dd id="experiment-model">—</dd>
+
+                    <dt>Медиана</dt>
+                    <dd id="experiment-median">—</dd>
+
+                    <dt>ID изображения</dt>
+                    <dd id="experiment-photo-id">—</dd>
+
+                    <dt>ID графика</dt>
+                    <dd id="experiment-chart-id">—</dd>
+
+                    <dt>Формат графика</dt>
+                    <dd id="experiment-chart-type">—</dd>
+                </dl>
+            </section>
+
+            <section class="card">
+                <h2>Квантили</h2>
+
+                <p id="quantiles-empty" class="experiment-message">
+                    Результаты пока отсутствуют.
+                </p>
+
+                <div id="quantiles-table-wrapper"
+                     class="quantiles-wrapper"
+                     hidden>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th scope="col">Квантиль τ</th>
+                            <th scope="col">Значение</th>
+                        </tr>
+                        </thead>
+                        <tbody id="quantile-rows"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<script type="module" th:src="@{/data/experiment.js}"></script>
+</body>
+</html>

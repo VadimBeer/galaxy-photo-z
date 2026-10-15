@@ -330,6 +330,16 @@ main {
     color: #64d39b;
 }
 
+.experiment-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.experiment-link:hover .experiment-name {
+    text-decoration: underline;
+}
+
+
 
 /* ================= TABLE ================= */
 

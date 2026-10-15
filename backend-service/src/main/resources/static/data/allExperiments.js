@@ -8,11 +8,11 @@ function renderExperiments(experiments) {
         return;
     }
 
-
-
     experiments.forEach(experiment => {
-        const item = document.createElement('div');
-        item.className = 'experiment';
+        const item = document.createElement('a');
+
+        item.className = 'experiment experiment-link';
+        item.href = `/experiments/${experiment.id}`;
         item.dataset.experimentId = experiment.id;
 
         item.innerHTML = `
@@ -43,6 +43,8 @@ function renderExperiments(experiments) {
         medianEl.textContent = experiment.median == null
             ? 'Медиана: —'
             : `Медиана: ${experiment.median.toFixed(4)}`;
+
+
 
         experimentsListEl.appendChild(item);
     });

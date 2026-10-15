@@ -10,16 +10,17 @@ public record AnalysisTaskWithPhotoAndChartDto(
         Long taskId,
         LocalDateTime createdAt,
 
-        Long photoId,
-        String photoFilename,
-        String photoUrl,
-
-        String modelName,
-        String modelVersion,
+        Long galaxyImgId,
+        String galaxyImgFilename,
+        String galaxyImgUrl,
 
         Long chartId,
         String chartUrl,
         String chartContentType,
+
+        String modelName,
+        String modelVersion,
+
         Double median,
         List<QuantilePointDto> quantiles
 ) {

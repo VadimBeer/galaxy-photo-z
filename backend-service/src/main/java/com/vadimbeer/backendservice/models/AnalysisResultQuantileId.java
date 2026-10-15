@@ -25,16 +25,8 @@ public class AnalysisResultQuantileId implements Serializable {
         return taskId;
     }
 
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
-
     public Double getTau() {
         return tau;
-    }
-
-    public void setTau(Double tau) {
-        this.tau = tau;
     }
 
     @Override

@@ -17,6 +17,9 @@ public class AnalysisResultQuantile {
     @EmbeddedId
     private AnalysisResultQuantileId analysisResultQuantileId;
 
+    @Column(name = "value", nullable = false)
+    private Double value;
+
     @MapsId("taskId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id")

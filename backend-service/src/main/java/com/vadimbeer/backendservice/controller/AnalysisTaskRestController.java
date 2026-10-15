@@ -1,15 +1,14 @@
 package com.vadimbeer.backendservice.controller;
 
 import com.vadimbeer.backendservice.DTO.AnalysisTaskDto;
+import com.vadimbeer.backendservice.DTO.AnalysisTaskWithPhotoAndChartDto;
 import com.vadimbeer.backendservice.models.User;
+import com.vadimbeer.backendservice.service.AnalysisTaskDetailService;
 import com.vadimbeer.backendservice.service.AnalysisTaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +18,21 @@ import java.util.List;
 public class AnalysisTaskRestController {
 
     private final AnalysisTaskService analysisTaskService;
+    private final AnalysisTaskDetailService analysisTaskDetailService;
 
     @GetMapping("/all")
     public ResponseEntity<List<AnalysisTaskDto>> getLastTask(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(analysisTaskService.findRecentByUserId(user));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AnalysisTaskWithPhotoAndChartDto> getTaskById(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User user
+    ) {
+        AnalysisTaskWithPhotoAndChartDto dto = analysisTaskDetailService
+                .findTasksAndPhotoAndChart(id, user);
+
+        return ResponseEntity.ok(dto);
     }
 }

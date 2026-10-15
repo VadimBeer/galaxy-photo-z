@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,16 @@ public class AnalysisResultService {
     public AnalysisResult save(AnalysisTask task, ChartTaskConsume message) {
         AnalysisResult analysisResult = new AnalysisResult(task, message.medianQuantile());
         return repository.save(analysisResult);
+    }
+
+    public AnalysisResult findById(Long analysisTaskId) {
+        return repository.findById(analysisTaskId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Результат задачи с таким id " + analysisTaskId + " не найден.")
+                );
+    }
+
+    public Optional<AnalysisResult> findByTaskId(Long taskId) {
+        return repository.findById(taskId);
     }
 }

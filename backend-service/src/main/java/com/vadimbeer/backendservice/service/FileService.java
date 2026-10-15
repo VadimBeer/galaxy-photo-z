@@ -46,4 +46,12 @@ public class FileService {
                         new EntityNotFoundException("Сущность с таким id не найдена")
                 );
     }
+
+    public FilesStorage findByObjectKey(String objectKey) {
+        return fileRepository.findByObjectKey(objectKey).orElseThrow(
+                () -> new EntityNotFoundException(
+                        "Файл с таким ключом не найден."
+                )
+        );
+    }
 }

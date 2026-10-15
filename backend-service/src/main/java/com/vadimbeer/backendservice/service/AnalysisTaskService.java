@@ -1,12 +1,12 @@
 package com.vadimbeer.backendservice.service;
 
 import com.vadimbeer.backendservice.DTO.AnalysisTaskDto;
+import com.vadimbeer.backendservice.DTO.AnalysisTaskWithPhotoAndChartDto;
 import com.vadimbeer.backendservice.DTO.ChartTaskConsume;
 import com.vadimbeer.backendservice.jpa.AnalysisTaskRepository;
 import com.vadimbeer.backendservice.models.*;
 import com.vadimbeer.backendservice.DTO.TaskCreatedEvent;
 import jakarta.persistence.EntityNotFoundException;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,7 +72,7 @@ public class AnalysisTaskService {
     public AnalysisTask findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("AnalysisTask with id " + id + " not found")
+                        new EntityNotFoundException("Сущность AnalysisTask с id " + id + " не найдена ")
                 );
     }
 

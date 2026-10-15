@@ -1,16 +1,14 @@
 package com.vadimbeer.backendservice.service;
 
 import com.vadimbeer.backendservice.props.UploadProperties;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.StatObjectArgs;
-import io.minio.StatObjectResponse;
+import io.minio.*;
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -71,6 +69,23 @@ public class StorageService {
         } catch (MinioException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);
+        }
+    }
+
+    public String getReadUrl(String objectKey) {
+        try {
+            return minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Http.Method.GET)
+                            .bucket(bucketName)
+                            .object(objectKey)
+                            .expiry(15, TimeUnit.MINUTES)
+                            .build()
+            );
+        } catch (MinioException e) {
+            throw new IllegalStateException(
+                    "Не удалось получить ссылку на файл " + objectKey, e
+            );
         }
     }
 }

@@ -8,11 +8,11 @@ function renderExperiments(experiments) {
         return;
     }
 
-
-
     experiments.forEach(experiment => {
-        const item = document.createElement('div');
-        item.className = 'experiment';
+        const item = document.createElement('a');
+
+        item.className = 'experiment experiment-link';
+        item.href = `/experiments/${experiment.id}`;
         item.dataset.experimentId = experiment.id;
 
         item.innerHTML = `
@@ -44,13 +44,15 @@ function renderExperiments(experiments) {
             ? 'Медиана: —'
             : `Медиана: ${experiment.median.toFixed(4)}`;
 
+
+
         experimentsListEl.appendChild(item);
     });
 }
 
 async function getExperiments() {
     try {
-        const response = await fetch('/api/v1/experiments/all');
+        const response = await fetch('/api/v1/experiments/lastExperiments');
 
         if (!response.ok) {
             throw new Error(`Ошибка загрузки: HTTP ${response.status}`);

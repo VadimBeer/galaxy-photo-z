@@ -4,6 +4,10 @@ import com.vadimbeer.backendservice.DTO.ChartTaskConsume;
 import com.vadimbeer.backendservice.jpa.AnalysisResultRepository;
 import com.vadimbeer.backendservice.models.AnalysisResult;
 import com.vadimbeer.backendservice.models.AnalysisTask;
+import com.vadimbeer.backendservice.jpa.QuantileRepository;
+import com.vadimbeer.backendservice.models.AnalysisResultQuantile;
+import com.vadimbeer.backendservice.models.AnalysisResultQuantileId;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AnalysisResultService {
     private final AnalysisResultRepository repository;
+    private final QuantileRepository quantileRepository;
 
     public AnalysisResult findByAnalysisTaskId(Long analysisTaskId) {
         return repository.findById(analysisTaskId).orElseThrow(
@@ -35,9 +40,41 @@ public class AnalysisResultService {
         return results;
     }
 
+    @Transactional
     public AnalysisResult save(AnalysisTask task, ChartTaskConsume message) {
-        AnalysisResult analysisResult = new AnalysisResult(task, message.medianQuantile());
-        return repository.save(analysisResult);
+        if (message.quantiles() == null || message.quantiles().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Для завершённой задачи " + task.getId()
+                            + " не переданы квантили"
+            );
+        }
+
+        AnalysisResult result = repository.save(new AnalysisResult(task, message.medianQuantile()));
+
+        List<AnalysisResultQuantile> quantiles =
+                message.quantiles()
+                .stream()
+                .map(point -> {
+                    AnalysisResultQuantile quantile =
+                            new AnalysisResultQuantile();
+
+                    quantile.setAnalysisResultQuantileId(
+                            new AnalysisResultQuantileId(
+                                    result.getId(),
+                                    point.tau()
+                            )
+                    );
+
+                    quantile.setValue(point.value());
+                    quantile.setAnalysisResult(result);
+
+                    return quantile;
+                })
+                .toList();
+
+        quantileRepository.saveAll(quantiles);
+
+        return result;
     }
 
     public AnalysisResult findById(Long analysisTaskId) {

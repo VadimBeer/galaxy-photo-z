@@ -1,11 +1,13 @@
 package com.vadimbeer.backendservice.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "analysis_result")
+@Getter
 public class AnalysisResult {
 
     @Id

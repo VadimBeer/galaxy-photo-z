@@ -29,7 +29,6 @@ public class AnalysisTaskDetailService {
 
     @Transactional(readOnly = true)
     public AnalysisTaskWithPhotoAndChartDto findTasksAndPhotoAndChart(Long taskId, User user) {
-        //todo реализовать dto для отправки информации об эксперименте
         AnalysisTask analysisTask = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("Задача с id : " + taskId + " не найдена."));
 

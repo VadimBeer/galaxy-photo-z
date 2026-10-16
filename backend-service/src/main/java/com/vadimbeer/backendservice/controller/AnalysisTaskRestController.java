@@ -20,7 +20,7 @@ public class AnalysisTaskRestController {
     private final AnalysisTaskService analysisTaskService;
     private final AnalysisTaskDetailService analysisTaskDetailService;
 
-    @GetMapping("/all")
+    @GetMapping("/lastExperiments")
     public ResponseEntity<List<AnalysisTaskDto>> getLastTask(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(analysisTaskService.findRecentByUserId(user));
     }

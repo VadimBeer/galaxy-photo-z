@@ -19,4 +19,11 @@ public interface AnalysisTaskRepository extends JpaRepository<AnalysisTask, Long
            ORDER BY task.createdAt DESC
            """)
     List<AnalysisTask> findRecentByUserId(@Param("user_id") Long user_id, Pageable pageable);
+
+    @Query("""
+        SELECT task 
+        FROM AnalysisTask task
+        WHERE task.file.id = :fileId
+        """)
+    AnalysisTask findByFilesStorageId(@Param("fileId") Long filesStorageId);
 }

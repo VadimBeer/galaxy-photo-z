@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Any
 
 import torch
 from torch import nn
@@ -25,7 +26,7 @@ def find_model(model_id: int) -> ModelDTO:
 
     raise Exception(f"Модель с id = {model_id} не найдена")
 
-def load_model(model_id: int) -> nn.Module:
+def load_model(model_id: int) -> Any:
     dto = find_model(model_id)
     model = None
 

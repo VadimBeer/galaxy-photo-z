@@ -8,7 +8,7 @@ RABBIT_PASSWORD = os.getenv("RABBIT_PASSWORD", "guest")
 
 IMG_EXCHANGE = "img_exchange"
 CHART_EXCHANGE = "chart_exchange"
-IMG_QUEUE = "astroml"
+IMG_QUEUE = "astroml.img"
 IMG_ROUTING_KEY = "img"
 CHART_ROUTING_KEY = "chart"
 

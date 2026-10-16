@@ -52,7 +52,7 @@ function renderExperiments(experiments) {
 
 async function getExperiments() {
     try {
-        const response = await fetch('/api/v1/experiments/all');
+        const response = await fetch('/api/v1/experiments/lastExperiments');
 
         if (!response.ok) {
             throw new Error(`Ошибка загрузки: HTTP ${response.status}`);

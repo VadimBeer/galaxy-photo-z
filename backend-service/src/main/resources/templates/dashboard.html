@@ -13,14 +13,12 @@
 <body>
 <header>
     <div class="logo">
-        Astro<span>ML</span>
+
     </div>
     <nav>
         <a href="#" class="active">Dashboard</a>
         <a href="#" id="openUpload">Загрузить данные</a>
-<!--        <a href="#" id="results">Результаты</a>-->
         <a href="#" id="models">Модели</a>
-<!--        <a href="#" id="charts">Графики</a>-->
     </nav>
 </header>
 
@@ -60,13 +58,23 @@
         <div class="card">
             <div class="card-header">
                 <h2>Quantile prediction</h2>
+
                 <span>
-                    Model:
+                    Model: <strong id="dashboard-model-name">Загрузка...</strong>
+                    <strong id="dashboard-model-version"></strong>
                 </span>
             </div>
 
-            <div class="chart-container">
-                <canvas id="quantileChart"></canvas>
+            <div class="chart-container" id="dashboard-image-container">
+                <p id="image-loading">Загрузка изображения...</p>
+                <img
+                        id="dashboard-image"
+                        alt="Последнее загруженное изображение"
+                        style="display: none;"
+                >
+                <p id="image-error" style="display: none;">
+                    Не удалось загрузить изображение
+                </p>
             </div>
         </div>
 
@@ -211,7 +219,8 @@
 <script type="module" th:src="@{/data/upload-modal.js}"></script>
 <script type="module" th:src="@{/data/model-version-modal.js}"></script>
 <script type="module" th:src="@{/data/dashboard-metrics.js}"></script>
-<script type="module" th:src="@{/data/allExperiments.js}"></script>
+<script type="module" th:src="@{/data/lastExperiments.js}"></script>
+<script type="module" th:src="@{/data/dashboard-chart-image.js}"></script>
 
 </body>
 </html>

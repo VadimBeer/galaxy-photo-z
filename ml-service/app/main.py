@@ -1,17 +1,15 @@
-from fastapi import FastAPI
-from contextlib import asynccontextmanager
+import logging
 
-from app.api.router import router
+from app.messaging.consumer import consumer
+from app.ml.model_loader import load_model
+from app.service import pipeline
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    print("Lifespan")
-    yield
-    print("Lifespan")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
 
-app = FastAPI(lifespan=lifespan)
-
-app.include_router(router)
-
-
-
+if __name__ == "__main__":
+    load_model(1)
+    load_model(2)
+    consumer()

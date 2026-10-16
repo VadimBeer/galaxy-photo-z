@@ -7,7 +7,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -23,10 +22,12 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private  String username;
+    @Column(unique = true, name = "username")
+    private String username;
 
     @NotEmpty(message="Email is required")
-    private  String email;
+    @Column(unique=true, name = "email")
+    private String email;
 
     @NotEmpty(message="Password is required")
     @Column(name = "password_hash")

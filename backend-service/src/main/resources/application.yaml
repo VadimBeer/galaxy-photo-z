@@ -14,9 +14,48 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      direct:
+        retry:
+          enabled: true
+          max: 5
+          initial-interval: 2000ms
+          multiplier: 2.0
+          max-interval: 10000ms
+
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
 
 server:
   port: 8080
+
+minio:
+  endpoint: http://localhost:9000
+  access-key: vadim
+  secret-key: minio_password_123
+  secure: false
+
+app:
+  upload:
+    max-file-size: 10485760
+    storage-path: /var/data/
+    bucket-name: galaxy-photos
+    allowed-file-types:
+      - image/jpeg
+      - image/png
+      - image/fits
+  rabbitmq:
+    img-queue-name: astroml.img
+    chart-queue-name: astroml.chart
+    exchange-img: img_exchange
+    exchange-chart: chart_exchange
+    img-routing-key: img
+    chart-routing-key: chart
+
+

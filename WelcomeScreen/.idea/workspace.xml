@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="13ac6b2a-211f-405b-a26e-b4b3284a1de1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,6 +24,10 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;python.packages.toolwindow.project.migrated.to.right.top.v2&quot;: &quot;true&quot;
   }
@@ -41,6 +48,71 @@
       <updated>1789552800473</updated>
       <workItem from="1789552802381" duration="2000" />
       <workItem from="1789553331755" duration="1000" />
+      <workItem from="1789594429562" duration="2000" />
+      <workItem from="1789629567299" duration="7000" />
+      <workItem from="1789646147543" duration="2000" />
+      <workItem from="1789649823864" duration="3000" />
+      <workItem from="1789662371885" duration="604000" />
+      <workItem from="1789819527632" duration="24000" />
+      <workItem from="1789925076811" duration="2000" />
+      <workItem from="1789929859723" duration="415000" />
+      <workItem from="1789930630022" duration="9000" />
+      <workItem from="1789933128417" duration="2000" />
+      <workItem from="1789990294023" duration="1000" />
+      <workItem from="1789993312922" duration="1000" />
+      <workItem from="1790001781893" duration="2000" />
+      <workItem from="1790163047875" duration="3000" />
+      <workItem from="1790166222366" duration="1000" />
+      <workItem from="1790166229503" duration="4000" />
+      <workItem from="1790166253905" duration="2000" />
+      <workItem from="1790169758347" duration="9000" />
+      <workItem from="1790170091756" duration="2000" />
+      <workItem from="1790170794298" duration="3000" />
+      <workItem from="1790185289913" duration="6000" />
+      <workItem from="1790187076948" duration="2000" />
+      <workItem from="1790250667173" duration="2000" />
+      <workItem from="1790256390569" duration="2000" />
+      <workItem from="1790277244204" duration="1813000" />
+      <workItem from="1790342485164" duration="1000" />
+      <workItem from="1790345452494" duration="199000" />
+      <workItem from="1790350989786" duration="2000" />
+      <workItem from="1790358095208" duration="2000" />
+      <workItem from="1790358624239" duration="1000" />
+      <workItem from="1790433233798" duration="1000" />
+      <workItem from="1790433700985" duration="10000" />
+      <workItem from="1790445746131" duration="2000" />
+      <workItem from="1790506385700" duration="4000" />
+      <workItem from="1790598108057" duration="2000" />
+      <workItem from="1790601319210" duration="6000" />
+      <workItem from="1790605113343" duration="8000" />
+      <workItem from="1790607820389" duration="33000" />
+      <workItem from="1790666577006" duration="1000" />
+      <workItem from="1790673501927" duration="610000" />
+      <workItem from="1790706088513" duration="1000" />
+      <workItem from="1790752034487" duration="2000" />
+      <workItem from="1790752249991" duration="12000" />
+      <workItem from="1790782005679" duration="2000" />
+      <workItem from="1790782022369" duration="6000" />
+      <workItem from="1790789057787" duration="2000" />
+      <workItem from="1790789926069" duration="2000" />
+      <workItem from="1790790298665" duration="3000" />
+      <workItem from="1790790674802" duration="119000" />
+      <workItem from="1790791657470" duration="1000" />
+      <workItem from="1790799803113" duration="2000" />
+      <workItem from="1790857474133" duration="1000" />
+      <workItem from="1791194412591" duration="1000" />
+      <workItem from="1791209903435" duration="607000" />
+      <workItem from="1791272031971" duration="1000" />
+      <workItem from="1791288260994" duration="1000" />
+      <workItem from="1791288558682" duration="4000" />
+      <workItem from="1791288963341" duration="2000" />
+      <workItem from="1791290986150" duration="1000" />
+      <workItem from="1791296101930" duration="2000" />
+      <workItem from="1791296463710" duration="6000" />
+      <workItem from="1791308747658" duration="3000" />
+      <workItem from="1791309920138" duration="4000" />
+      <workItem from="1791792727282" duration="1000" />
+      <workItem from="1791796340278" duration="7000" />
     </task>
     <servers />
   </component>

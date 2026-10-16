@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 
 @Configuration
@@ -28,19 +30,25 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain apiFilterChain(
+            HttpSecurity http,
+            SecurityContextRepository securityContextRepository
+    ) throws Exception {
+
         return http
-                .securityMatcher("/api/**")
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST).permitAll()
-                        .requestMatchers(HttpMethod.GET).permitAll()
+                .securityContext(security -> security
+                        .securityContextRepository(securityContextRepository)
                 )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/base"))
-                .logout(logout ->
-                        logout.logoutSuccessUrl("/")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/api/v1/registration",
+                                "/api/v1/login"
+                        ).permitAll()
+                        .requestMatchers("/api/v1/galaxy-photos/**",
+                                "/api/v1/experiments/**")
+                        .authenticated()
+                        .anyRequest().permitAll()
                 )
                 .build();
     }
@@ -48,5 +56,10 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
     }
 }

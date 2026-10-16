@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroML — Quantile Regression</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard-modal-upload.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard-model-version-modal.css}">
+</head>
+
+<body>
+<header>
+    <div class="logo">
+
+    </div>
+    <nav>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#" id="openUpload">Загрузить данные</a>
+        <a href="#" id="models">Модели</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="page-header">
+        <h1>Анализ квантильной регрессии</h1>
+    </section>
+
+    <section class="metrics">
+
+        <div class="card">
+            <div class="metric-title">MAE</div>
+            <div class="metric-value" id="metric-mae">—</div>
+        </div>
+
+        <div class="card">
+            <div class="metric-title">MSE</div>
+            <div class="metric-value" id="metric-mse">—</div>
+        </div>
+
+        <div class="card">
+            <div class="metric-title">RMSE</div>
+            <div class="metric-value" id="metric-rmse">—</div>
+        </div>
+
+        <div class="card">
+            <div class="metric-title">R²</div>
+            <div class="metric-value" id="metric-r2">—</div>
+        </div>
+
+    </section>
+
+    <!-- График + эксперименты -->
+    <section class="dashboard-grid">
+        <!-- График -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Quantile prediction</h2>
+
+                <span>
+                    Model: <strong id="dashboard-model-name">Загрузка...</strong>
+                    <strong id="dashboard-model-version"></strong>
+                </span>
+            </div>
+
+            <div class="chart-container" id="dashboard-image-container">
+                <p id="image-loading">Загрузка изображения...</p>
+                <img
+                        id="dashboard-image"
+                        alt="Последнее загруженное изображение"
+                        style="display: none;"
+                >
+                <p id="image-error" style="display: none;">
+                    Не удалось загрузить изображение
+                </p>
+            </div>
+        </div>
+
+        <!-- Последние эксперименты -->
+        <!-- Будут выводиться список по created_at -->
+        <div class="card" >
+            <div class="card-header">
+                <h2>Последние эксперименты</h2>
+                <span>Все →</span>
+            </div>
+
+            <div id="last-experiments"></div>
+        </div>
+
+    </section>
+
+
+    <!-- Результаты моделей -->
+
+    <section class="card results">
+
+        <div class="card-header">
+            <h2>Результаты моделей</h2>
+            <span>
+                Последний запуск
+            </span>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Модель</th>
+                <th>MAE</th>
+                <th>MSE</th>
+                <th>RMSE</th>
+                <th>R²</th>
+                <th>Статус</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr>
+                <td>Gradient Boosting Quantile</td>
+                <td>0.0357</td>
+                <td>0.00290</td>
+                <td>0.0539</td>
+                <td>0.9407</td>
+
+                <td>
+                    <span class="badge">
+                        Completed
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>CNN Quantile Regression</td>
+                <td>0.0412</td>
+                <td>0.00381</td>
+                <td>0.0617</td>
+                <td>0.9321</td>
+
+                <td>
+                    <span class="badge">
+                        Completed
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>Random Forest</td>
+                <td>0.0491</td>
+                <td>0.00492</td>
+                <td>0.0701</td>
+                <td>0.9154</td>
+
+                <td>
+                    <span class="badge">
+                        Completed
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>Baseline</td>
+                <td>0.2824</td>
+                <td>0.2589</td>
+                <td>0.5089</td>
+                <td>0.8156</td>
+
+                <td>
+                    <span class="badge">
+                        Completed
+                    </span>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<footer>
+    Подвал сайта
+</footer>
+
+<dialog id="uploadModal">
+    <div class="modal-header">
+        <h2>Загрузка данных</h2>
+        <button id="closeModal" type="button">x</button>
+    </div>
+
+    <div class="upload-area">
+        <p>Выберите изображение</p>
+        <input type="file" id="dataset" accept=".jpg">
+        <p id="selectedFile"></p>
+    </div>
+
+    <button id="sendButton" type="button" disabled>Отправить данные</button>
+</dialog>
+
+<dialog id="modelVersionModal">
+    <div class="modal-header">
+        <h2>Выбор модели</h2>
+        <button id="closeModelVersionModal" type="button">x</button>
+    </div>
+
+    <div id="modelList" class="model-list">
+
+    </div>
+
+</dialog>
+
+<script type="module" th:src="@{/data/upload-modal.js}"></script>
+<script type="module" th:src="@{/data/model-version-modal.js}"></script>
+<script type="module" th:src="@{/data/dashboard-metrics.js}"></script>
+<script type="module" th:src="@{/data/lastExperiments.js}"></script>
+<script type="module" th:src="@{/data/dashboard-chart-image.js}"></script>
+
+</body>
+</html>

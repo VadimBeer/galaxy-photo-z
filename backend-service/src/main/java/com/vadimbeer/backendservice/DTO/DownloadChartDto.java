@@ -1,4 +1,7 @@
 package com.vadimbeer.backendservice.DTO;
 
-public record DownloadChartDto() {
+public record DownloadChartDto(
+        String imageFilename,
+        byte[] file
+) {
 }

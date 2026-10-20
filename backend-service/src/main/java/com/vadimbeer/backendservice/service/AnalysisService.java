@@ -7,7 +7,6 @@ import com.vadimbeer.backendservice.models.FilesStorage;
 import com.vadimbeer.backendservice.models.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,11 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class AnalysisService {
 
     private final AnalysisTaskService analysisTaskService;
-    private final FileUploadService fileUploadService;
+    private final FileStorageService fileStorageService;
     private final FileService fileService;
 
     public AnalysisTaskResponse submit(User user, Integer modelId, MultipartFile file) {
-        UploadResponse response = fileUploadService.saveImage(user, file);
+        UploadResponse response = fileStorageService.saveImage(user, file);
         FilesStorage filesStorage = fileService.findById(response.id());
         AnalysisTask analysisTask = analysisTaskService.create(modelId, filesStorage);
 

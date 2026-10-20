@@ -5,8 +5,11 @@ import io.minio.*;
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
@@ -56,7 +59,7 @@ public class StorageService {
 
     public long sizeFileInStorage(String objectKey) {
         try{
-            StatObjectResponse  statObjectResponse = minioClient.statObject(
+            StatObjectResponse statObjectResponse = minioClient.statObject(
                     StatObjectArgs.builder()
                             .bucket(bucketName)
                             .object(objectKey)
@@ -87,5 +90,29 @@ public class StorageService {
                     "Не удалось получить ссылку на файл " + objectKey, e
             );
         }
+    }
+
+    public GetObjectResponse getObject(String objectKey) {
+
+        try {
+            return minioClient.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(objectKey)
+                            .build()
+            );
+
+        }catch (MinioException e) {
+            log.warn(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public MinioClient getMinioClient() {
+        return minioClient;
+    }
+
+    public String getBucketName() {
+        return bucketName;
     }
 }

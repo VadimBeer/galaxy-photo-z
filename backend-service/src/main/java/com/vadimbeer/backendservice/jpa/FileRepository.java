@@ -25,5 +25,15 @@ public interface FileRepository extends JpaRepository<FilesStorage, Long> {
 //               ORDER BY files.createdAt DESC
 //               LIMIT 1
 //           """)
-    Optional<FilesStorage> findFirstByUserIdOrderByCreatedAtDesc(Long userId);
+
+    @Query("""
+                        SELECT f
+                        FROM FilesStorage f
+                        WHERE f.user.id = :userId
+                        AND f.objectKey LIKE CONCAT(:prefix, '%') 
+                        ORDER BY f.createdAt DESC
+                        LIMIT 1
+            """)
+    Optional<FilesStorage> findFirstByUserIdOrderByCreatedAtDesc(@Param("userId") Long userId,
+                                                                 @Param("prefix") String prefix);
 }

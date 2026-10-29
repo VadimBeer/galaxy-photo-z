@@ -25,7 +25,7 @@ public class ChartFileService {
     private final FileService fileService;
     private final AnalysisTaskRepository analysisTaskRepository;
 
-//    private final String prefixOriginalName = "charts";
+    private final String prefixOriginalName = "charts";
 
     public FilesStorage saveChartFile(ChartTaskConsume chartTaskConsume) {
         long size = 0;
@@ -54,7 +54,7 @@ public class ChartFileService {
     }
 
     public ChartDtoOnDashboard getChartDtoOnDashboard(Long userId) {
-        FilesStorage chart = fileRepository.findFirstByUserIdOrderByCreatedAtDesc(userId)
+        FilesStorage chart = fileRepository.findFirstByUserIdOrderByCreatedAtDesc(userId, prefixOriginalName)
                 .orElseThrow(() ->
                         new RuntimeException("Файл пользователя не найден")
                 );

@@ -33,7 +33,8 @@ public class StorageService {
                                    long size, String contentType
     ) {
         if(!typeImage(contentType)) {
-            return;
+            log.info("Пользователь пытался загрузить недопустимый формат файла");
+            throw new RuntimeException("Пользователь пытался загрузить недопустимый формат файла");
         }
 
         try {

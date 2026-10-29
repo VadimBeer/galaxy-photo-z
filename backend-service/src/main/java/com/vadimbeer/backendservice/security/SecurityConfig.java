@@ -47,7 +47,8 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/api/v1/galaxy-photos/**",
                                 "/api/v1/experiments/**",
-                                "/api/v1/experiments/download/**")
+                                "/api/v1/experiments/download/**",
+                                "api/v1/dashboard/**")
                         .authenticated()
                         .anyRequest().permitAll()
                 )

@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import java.util.List;
@@ -26,4 +29,8 @@ public interface AnalysisTaskRepository extends JpaRepository<AnalysisTask, Long
         WHERE task.file.id = :fileId
         """)
     AnalysisTask findByFilesStorageId(@Param("fileId") Long filesStorageId);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT task FROM AnalysisTask task WHERE task.id = :id")
+    Optional<AnalysisTask> findByIdForUpdate(@Param("id") Long id);
 }

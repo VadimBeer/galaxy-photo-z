@@ -25,11 +25,19 @@
     <div class="page-header experiment-heading">
         <h1 id="experiment-title">Эксперимент</h1>
 
-        <button id="refresh-experiment"
-                class="experiment-refresh"
-                type="button">
-            Обновить
-        </button>
+        <div class="experiment-actions">
+            <button id="download-experiment"
+                    class="experiment-download"
+                    type="button">
+                Скачать график
+            </button>
+
+            <button id="refresh-experiment"
+                    class="experiment-refresh"
+                    type="button">
+                Обновить
+            </button>
+        </div>
     </div>
 
     <p id="experiment-message"
@@ -116,5 +124,6 @@
 </main>
 
 <script type="module" th:src="@{/data/experiment.js}"></script>
+<script type="module" th:src="@{/data/download-file.js}"></script>
 </body>
 </html>

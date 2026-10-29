@@ -86,6 +86,7 @@ public class FileStorageService {
 
         if(!user.equals(file.getUser())) {
             log.info("Пользователь не совпадает с владельцем файла");
+            throw new RuntimeException("Пользователь не совпадает с владельцем файла");
         }
 
         DownloadChartDto dto;

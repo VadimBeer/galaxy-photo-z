@@ -1,12 +1,12 @@
 package com.vadimbeer.backendservice.messages;
 
 import com.vadimbeer.backendservice.DTO.ChartTaskConsume;
-import com.vadimbeer.backendservice.models.AnalysisResult;
+import com.vadimbeer.backendservice.jpa.AnalysisTaskRepository;
 import com.vadimbeer.backendservice.models.AnalysisTask;
-import com.vadimbeer.backendservice.models.FilesStorage;
 import com.vadimbeer.backendservice.service.AnalysisResultService;
 import com.vadimbeer.backendservice.service.AnalysisTaskService;
 import com.vadimbeer.backendservice.service.ChartFileService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -23,6 +23,7 @@ public class TaskServiceConsumer {
     private final AnalysisTaskService analysisTaskService;
     private final ChartFileService chartFileService;
     private final AnalysisResultService analysisResultService;
+    private final AnalysisTaskRepository taskRepository;
 
     //получение сообщения со стороны Python
     //изменение статуса задачи
@@ -32,28 +33,36 @@ public class TaskServiceConsumer {
     @RabbitListener(queues = "${app.rabbitmq.chart-queue-name}")
     @Transactional
     public void consume(ChartTaskConsume message) {
-        log.info("Получено сообщение по задаче {}", message.taskId());
+        AnalysisTask task = taskRepository
+                .findByIdForUpdate(message.taskId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Задача не найдена: " + message.taskId()
+                ));
 
-        AnalysisTask task = analysisTaskService.updateTask(message);
-
-        if (message.state() != AnalysisTask.State.COMPLETED) {
-            log.info("Статус задачи {} обновлён на {}",
-                    task.getId(),
-                    message.state()
-            );
+        // Проверяем сохранённое состояние до любых изменений.
+        if (task.getState() == AnalysisTask.State.COMPLETED
+                || task.getState() == AnalysisTask.State.FAILED) {
+            log.info("Повторный результат задачи {} пропущен", task.getId());
             return;
         }
 
-        // Сохраняет AnalysisResult и все пары tau/value.
-        AnalysisResult result = analysisResultService.save(task, message);
+        // Этот обработчик принимает итоговые результаты.
+        if (message.state() != AnalysisTask.State.COMPLETED
+                && message.state() != AnalysisTask.State.FAILED) {
+            throw new IllegalArgumentException(
+                    "Ожидался итоговый статус, получен: " + message.state()
+            );
+        }
 
-        FilesStorage chart = chartFileService.saveChartFile(message);
+        if (message.state() == AnalysisTask.State.COMPLETED) {
+            analysisResultService.save(task, message);
+            chartFileService.saveChartFile(message);
+            task.setError(null);
+        } else {
+            task.setError(message.errorMessage());
+        }
 
-        log.info("Задача {}: сохранены результат {}, график {}, квантилей {}",
-                task.getId(),
-                result.getId(),
-                chart.getId(),
-                message.quantiles().size()
-        );
+        task.setState(message.state());
+        taskRepository.save(task);
     }
 }

@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/galaxy_photoz
-    username: vadim
-    password: 1234
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -17,8 +17,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: ${RABBIT_USER}
+    password: ${RABBIT_PASSWORD}
     listener:
       direct:
         retry:
@@ -37,8 +37,8 @@ server:
 
 minio:
   endpoint: http://localhost:9000
-  access-key: vadim
-  secret-key: minio_password_123
+  access-key: ${MINIO_ACCESS_KEY}
+  secret-key: ${MINIO_SECRET_KEY}
   secure: false
 
 app:

@@ -1,11 +1,10 @@
-from functools import lru_cache
 from typing import Any
-
+from pathlib import Path
 import torch
-from torch import nn
 from app.ml.model_CNN import CNN
 
 num_quantiles = 19
+WEIGHTS_DIR = Path(__file__).resolve().parents[2] / "weights"
 
 class ModelDTO:
     def __init__(self, id: int, model_name: str):
@@ -36,9 +35,16 @@ def load_model(model_id: int) -> Any:
 
     if dto.model_name == "CNN_V2":
         model = CNN(num_quantiles)
-        model.load_state_dict(torch.load("/Users/vadim/Documents/NIR-7-semestr/project/ml-service/weights/CNN_V2.pth",
-                                         map_location=torch.device("cpu"),
-                                         weights_only=True)
-                              )
+
+        weights_path = WEIGHTS_DIR / "CNN_V2.pth"
+
+        model.load_state_dict(
+            torch.load(
+                weights_path,
+                map_location=torch.device("cpu"),
+                weights_only=True,
+            )
+        )
+
 
     return model

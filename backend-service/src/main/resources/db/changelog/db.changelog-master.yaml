@@ -5,3 +5,6 @@ databaseChangeLog:
   - include:
       file: db/changelog/v2_add_model_metrics.sql
       relativeToChangelogFile: false
+  - include:
+      file: db/changelog/v3_seed_models.sql
+      relativeToChangelogFile: false

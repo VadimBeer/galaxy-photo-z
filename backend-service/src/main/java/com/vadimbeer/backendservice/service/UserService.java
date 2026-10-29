@@ -22,6 +22,21 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public String save(UserRequest userRequest) {
+        if(userRequest.email() == null || userRequest.email().isEmpty()) {
+            log.info("Пользователь не заполнил поле email");
+            throw new RuntimeException("Поле email должно быть заполнено");
+        }
+
+        if(userRequest.password() == null || userRequest.password().isEmpty()) {
+            log.info("Пользователь не заполнил поле password");
+            throw new RuntimeException("Поле password должно быть заполнено");
+        }
+
+        if(userRequest.username() == null || userRequest.username().isEmpty()) {
+            log.info("Пользователь не заполнил поле username");
+            throw new RuntimeException("Поле email должно быть заполнено");
+        }
+
         User newUser = userMapperSecurity.toUser(userRequest);
         newUser = userRepository.save(newUser);
 

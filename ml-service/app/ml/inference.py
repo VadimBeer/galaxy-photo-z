@@ -39,7 +39,7 @@ def make_quantile_chart(quantiles: torch.Tensor) -> plt.Figure:
     ax.set_xlabel("z", fontsize=14)
     ax.set_ylabel("PDF", fontsize=14)
     ax.tick_params(labelsize=12)
-    ax.set_title("PDF для photo-z CNN", fontsize=14)
+    # ax.set_title("PDF для photo-z CNN", fontsize=14)
     ax.legend()
 
     return fig

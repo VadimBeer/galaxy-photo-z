@@ -7,6 +7,7 @@ from app.ml.model_loader import load_model
 from app.service.image_service import preprocessing_image
 from app.shemas.shemas import ImgTaskMessage, ChartTaskPublisher, Status, QuantilePoint
 from app.storage.minio_client import download_galaxy_photo, upload_chart
+import matplotlib.pyplot as plt
 
 log = logging.getLogger(__name__)
 
@@ -20,9 +21,12 @@ def process(task: ImgTaskMessage) -> ChartTaskPublisher:
         transforms = transform_image_cnn()
         prediction = regression_quantile(model, img, transforms)
 
-        plt = make_quantile_chart(prediction)
+        fig = make_quantile_chart(prediction)
 
-        chart_name = upload_chart(plt, task)
+        try:
+            chart_name = upload_chart(fig, task)
+        finally:
+            plt.close(fig)
 
         values = np.sort(prediction.squeeze().tolist())
         quantiles = [QuantilePoint(tau=t, value=float(v)) for t, v in zip(TAUS, values)]

@@ -3,8 +3,8 @@ import pika
 
 RABBIT_HOST = os.getenv("RABBIT_HOST", "localhost")
 RABBIT_PORT = int(os.getenv("RABBIT_PORT", "5672"))
-RABBIT_USER = os.getenv("RABBIT_USER", "guest")
-RABBIT_PASSWORD = os.getenv("RABBIT_PASSWORD", "guest")
+RABBIT_USER = os.getenv("RABBIT_USER")
+RABBIT_PASSWORD = os.getenv("RABBIT_PASSWORD")
 
 IMG_EXCHANGE = "img_exchange"
 CHART_EXCHANGE = "chart_exchange"

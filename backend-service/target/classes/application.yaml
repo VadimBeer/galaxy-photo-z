@@ -50,6 +50,9 @@ app:
       - image/jpeg
       - image/png
       - image/fits
+      - text/csv
+      - application/csv
+      - text/plain
   rabbitmq:
     img-queue-name: astroml.img
     chart-queue-name: astroml.chart

@@ -3,6 +3,7 @@ package com.vadimbeer.backendservice.service;
 import com.vadimbeer.backendservice.jpa.FileRepository;
 import com.vadimbeer.backendservice.models.FilesStorage;
 import com.vadimbeer.backendservice.models.User;
+import com.vadimbeer.backendservice.props.UploadProperties;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,22 @@ import java.util.UUID;
 public class FileService {
 
     private FileRepository fileRepository;
+    private UploadProperties uploadProperties;
 
-    public FileService(FileRepository fileRepository) {
+    public FileService(FileRepository fileRepository,  UploadProperties uploadProperties) {
         this.fileRepository = fileRepository;
+        this.uploadProperties = uploadProperties;
     }
 
     public FilesStorage saveFileMetadata(String objectKey,String originalFileName,
                                  String contentType, Long sizeBytes,
                                  User user
     ) {
+        if(!uploadProperties.getAllowedFileTypes().contains(contentType)) {
+            log.info("Пользователь пытался загрузить недопустимый формат файла");
+            throw new RuntimeException("Пользователь пытался загрузить недопустимый формат файла");
+        }
+
         FilesStorage filesStorage = new FilesStorage();
 
         filesStorage.setObjectKey(objectKey);

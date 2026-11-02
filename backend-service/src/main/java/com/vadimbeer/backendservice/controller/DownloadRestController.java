@@ -24,8 +24,10 @@ public class DownloadRestController {
     private final FileStorageService fileStorageService;
 
     @GetMapping("/chart/{chartId}")
-    public ResponseEntity<byte[]> getDownload(@PathVariable Long chartId,
-                                                        @AuthenticationPrincipal User user) {
+    public ResponseEntity<byte[]> getDownload(
+            @PathVariable Long chartId,
+            @AuthenticationPrincipal User user
+    ) {
 
         DownloadChartDto dto =
                 fileStorageService.getChartFileFromStorage(chartId, user);

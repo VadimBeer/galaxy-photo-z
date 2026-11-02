@@ -3,6 +3,7 @@ package com.vadimbeer.backendservice;
 import com.vadimbeer.backendservice.jpa.FileRepository;
 import com.vadimbeer.backendservice.models.FilesStorage;
 import com.vadimbeer.backendservice.models.User;
+import com.vadimbeer.backendservice.props.UploadProperties;
 import com.vadimbeer.backendservice.service.FileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,13 +29,15 @@ class FileServiceTest {
 
     @Mock
     private FileRepository fileRepository;
+    @Mock
+    private UploadProperties uploadProperties;
 
     private FileService fileService;
     private User user;
 
     @BeforeEach
     void setUp() {
-        fileService = new FileService(fileRepository);
+        fileService = new FileService(fileRepository, uploadProperties);
         user = new User();
         // Если у User есть setId/setUsername — можно проставить здесь, чтобы
         // тесты ниже были нагляднее, например user.setId(1L).

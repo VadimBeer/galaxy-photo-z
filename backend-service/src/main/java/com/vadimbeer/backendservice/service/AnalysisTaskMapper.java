@@ -63,7 +63,8 @@ public class AnalysisTaskMapper {
                 modelVersion.getVersion(),
 
                 result == null ? null : result.getMedian(),
-                quantiles
+                quantiles,
+                galaxyImg.getContentType()
         );
     }
 }

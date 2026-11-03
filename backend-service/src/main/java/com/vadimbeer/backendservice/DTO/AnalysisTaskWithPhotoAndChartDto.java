@@ -22,6 +22,7 @@ public record AnalysisTaskWithPhotoAndChartDto(
         String modelVersion,
 
         Double median,
-        List<QuantilePointDto> quantiles
+        List<QuantilePointDto> quantiles,
+        String inputContentType
 ) {
 }

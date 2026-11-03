@@ -10,6 +10,6 @@ logging.basicConfig(
 )
 
 if __name__ == "__main__":
-    load_model(1)
     load_model(2)
+    load_model(3)
     consumer()

@@ -5,6 +5,7 @@ import com.vadimbeer.backendservice.DTO.UploadResponse;
 import com.vadimbeer.backendservice.models.AnalysisTask;
 import com.vadimbeer.backendservice.models.FilesStorage;
 import com.vadimbeer.backendservice.models.User;
+import com.vadimbeer.backendservice.models.ModelVersion;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,13 @@ public class AnalysisService {
     private final AnalysisTaskService analysisTaskService;
     private final FileStorageService fileStorageService;
     private final FileService fileService;
+    private final ModelVersionService modelVersionService;
+    private final ModelInputValidator modelInputValidator;
 
     @Transactional
     public AnalysisTaskResponse submit(User user, Integer modelId, MultipartFile file) {
+        ModelVersion model = modelVersionService.getModelVersionById(modelId);
+        modelInputValidator.validate(model, file);
         UploadResponse response = fileStorageService.saveImage(user, file);
         FilesStorage filesStorage = fileService.findById(response.id());
         AnalysisTask analysisTask = analysisTaskService.create(modelId, filesStorage);

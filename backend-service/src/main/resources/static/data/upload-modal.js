@@ -5,15 +5,51 @@ const fileInput = document.getElementById("dataset");
 const sendButton = document.getElementById("sendButton");
 const selectedFile = document.getElementById("selectedFile");
 
+const inputHint = document.getElementById("inputHint");
+
+const inputRules = {
+    "2": {
+        accept: ".jpg,.jpeg,.png",
+        hint: "CNN V2: выберите изображение JPEG или PNG."
+    },
+    "3": {
+        accept: ".csv",
+        hint: "CatBoost V1: выберите CSV UTF-8 с разделителем-запятой, "
+            + "заголовками признаков и одной строкой объекта. "
+            + "Файл Excel нужно экспортировать в CSV."
+    }
+};
+
 let selectedModelId = sessionStorage.getItem("selectedModelVersionId");
+
+function updateInputFormat() {
+    const rule = inputRules[String(selectedModelId)];
+
+    fileInput.disabled = !rule;
+    fileInput.accept = rule?.accept ?? "";
+    inputHint.textContent = rule?.hint
+        ?? "Сначала выберите поддерживаемую модель.";
+}
 
 // Кнопка активна, только если выбраны и файл, и модель
 function updateSendButton() {
-    sendButton.disabled = !(fileInput.files.length > 0 && selectedModelId);
+    const rule = inputRules[String(selectedModelId)];
+
+    sendButton.disabled = !(
+        rule && fileInput.files.length > 0
+    );
 }
 
 window.addEventListener("model-selected", (event) => {
-    selectedModelId = event.detail.modelId;
+    const nextModelId = String(event.detail.modelId);
+
+    if (String(selectedModelId) !== nextModelId) {
+        fileInput.value = "";
+        selectedFile.textContent = "";
+    }
+
+    selectedModelId = nextModelId;
+    updateInputFormat();
     updateSendButton();
 });
 
@@ -54,13 +90,21 @@ sendButton.addEventListener("click", async () => {
             body: formData
         });
 
+        const body = await response.json().catch(() => null);
+
         if (!response.ok) {
-            throw new Error(`Ошибка HTTP: ${response.status}`);
+            const message =
+                body?.message
+                || body?.detail
+                || `Ошибка загрузки: HTTP ${response.status}`;
+
+            throw new Error(message);
         }
-        const result = await response.json();
+
+        const result = body;
         console.log("Задача создана:", result);
 
-        alert("Файл успешно загружен, анализ запущен.");
+        alert(error.message || "Не удалось загрузить файл.");
         modal.close();
     } catch (error) {
         console.error("Ошибка отправки:", error);
@@ -71,4 +115,5 @@ sendButton.addEventListener("click", async () => {
     }
 });
 
+updateInputFormat();
 updateSendButton();

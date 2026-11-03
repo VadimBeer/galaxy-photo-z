@@ -4,9 +4,9 @@ public record ModelVersionMetricsResponse(
         Integer id,
         String name,
         String version,
-        double mae,
-        double mse,
-        double rmse,
-        double r2
+        Double mae,
+        Double mse,
+        Double rmse,
+        Double r2
 ) {
 }

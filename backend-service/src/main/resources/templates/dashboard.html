@@ -196,8 +196,9 @@
     </div>
 
     <div class="upload-area">
-        <p>Выберите изображение</p>
-        <input type="file" id="dataset" accept=".jpg, .csv, .xlsx">
+        <p id="inputHint">Сначала выберите модель.</p>
+
+        <input type="file" id="dataset" aria-describedby="inputHint" disabled>
         <p id="selectedFile"></p>
     </div>
 

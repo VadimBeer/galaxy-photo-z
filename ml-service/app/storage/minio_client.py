@@ -15,17 +15,21 @@ def minio_client() -> Minio:
         secure=False,
     )
 
-def download_galaxy_photo(object_key: str):
-    file = minio_client().get_object(minio_config.PHOTOS_BUCKET, object_key)
+def download_input_file(object_key: str) -> bytes:
+    response = minio_client().get_object(
+        minio_config.PHOTOS_BUCKET,
+        object_key,
+    )
 
     try:
-        return file.read()
-    except FileNotFoundError as e:
-        file.close()
-        file.release_conn()
-        print(e)
+        return response.read()
     finally:
-        file.close()
+        response.close()
+        response.release_conn()
+
+def download_galaxy_photo(object_key: str) -> bytes:
+    # Совместимость с существующими вызовами и проверками CNN.
+    return download_input_file(object_key)
 
 def upload_chart(fig, img_task_message: ImgTaskMessage) -> str:
     buf = chart_to_bytes(fig)

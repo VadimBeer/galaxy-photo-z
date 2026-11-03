@@ -50,7 +50,9 @@
     <div id="experiment-content" hidden>
         <div class="experiment-grid">
             <section class="card">
-                <h2>Исходное изображение</h2>
+                <h2>Исходные данные</h2>
+
+                <p id="input-filename"></p>
 
                 <p id="photo-message" class="experiment-message"></p>
 
@@ -58,6 +60,15 @@
                      class="experiment-image"
                      alt="Исходное изображение галактики"
                      hidden>
+
+                <p>
+                    <a id="input-file-link"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       hidden>
+                        Открыть исходный файл
+                    </a>
+                </p>
             </section>
 
             <section class="card">
@@ -87,7 +98,7 @@
                     <dt>Медиана</dt>
                     <dd id="experiment-median">—</dd>
 
-                    <dt>ID изображения</dt>
+                    <dt>ID исходного файла</dt>
                     <dd id="experiment-photo-id">—</dd>
 
                     <dt>ID графика</dt>

@@ -104,11 +104,11 @@ sendButton.addEventListener("click", async () => {
         const result = body;
         console.log("Задача создана:", result);
 
-        alert(error.message || "Не удалось загрузить файл.");
+        alert("Файл успешно загружен, анализ запущен.");
         modal.close();
     } catch (error) {
         console.error("Ошибка отправки:", error);
-        alert("Не удалось загрузить файл. Попробуйте снова.");
+        alert(error.message || "Не удалось загрузить файл.");
     } finally {
         sendButton.textContent = "Отправить";
         updateSendButton();

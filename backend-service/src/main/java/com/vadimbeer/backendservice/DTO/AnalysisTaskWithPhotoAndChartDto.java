@@ -23,6 +23,8 @@ public record AnalysisTaskWithPhotoAndChartDto(
 
         Double median,
         List<QuantilePointDto> quantiles,
-        String inputContentType
+        String inputContentType,
+        AnalysisTask.State state,
+        String errorMessage
 ) {
 }

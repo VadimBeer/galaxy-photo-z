@@ -43,6 +43,67 @@ function showImage(imageId, messageId, url) {
     image.src = url;
 }
 
+function renderInputFile(experiment) {
+    const image = document.getElementById('experiment-photo');
+    const message = document.getElementById('photo-message');
+    const link = document.getElementById('input-file-link');
+
+    // Сбрасываем предыдущее состояние при обновлении страницы.
+    image.onload = null;
+    image.onerror = null;
+    image.hidden = true;
+    image.removeAttribute('src');
+
+    message.hidden = false;
+    message.textContent = '';
+
+    link.hidden = true;
+    link.removeAttribute('href');
+
+    setText('input-filename', experiment.galaxyImgFilename);
+
+    const contentType = (
+        experiment.inputContentType ?? ''
+    ).split(';')[0].trim().toLowerCase();
+
+    const sourceUrl = experiment.galaxyImgUrl;
+
+    if (sourceUrl) {
+        link.href = sourceUrl;
+        link.hidden = false;
+    }
+
+    const imageTypes = new Set([
+        'image/jpeg',
+        'image/png'
+    ]);
+
+    const csvTypes = new Set([
+        'text/csv',
+        'application/csv',
+        'text/plain',
+        'application/vnd.ms-excel'
+    ]);
+
+    if (imageTypes.has(contentType)) {
+        showImage(
+            'experiment-photo',
+            'photo-message',
+            sourceUrl
+        );
+
+    } else if (csvTypes.has(contentType)) {
+        message.textContent =
+            'Исходный CSV с табличными признаками объекта. '
+            + 'Файл можно открыть по ссылке ниже.';
+
+    } else {
+        message.textContent =
+            'Предварительный просмотр этого формата недоступен. '
+            + 'Исходный файл можно открыть по ссылке ниже.';
+    }
+}
+
 function renderExperiment(experiment) {
     const title = `Эксперимент №${experiment.taskId}`;
 
@@ -70,11 +131,7 @@ function renderExperiment(experiment) {
             : '—'
     );
 
-    showImage(
-        'experiment-photo',
-        'photo-message',
-        experiment.galaxyImgUrl
-    );
+    renderInputFile(experiment);
 
     showImage(
         'experiment-chart',

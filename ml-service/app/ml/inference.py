@@ -4,9 +4,8 @@ import torchvision.transforms as transforms
 from scipy.interpolate import PchipInterpolator
 import matplotlib.pyplot as plt
 import numpy as np
-import io
-
-from app.service.image_service import fig_to_image, chart_to_bytes
+import pandas as pd
+from catboost import CatBoostRegressor
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -19,6 +18,33 @@ def regression_quantile(model: torch.nn.Module, image: Image.Image, transform: t
         output = model(img_tensor)
 
     return output
+
+def regression_quantile_catboost(
+    model: CatBoostRegressor,
+    features: pd.DataFrame,
+    taus: np.ndarray,
+) -> np.ndarray:
+    """Возвращает квантили одного объекта с формой (1, число квантилей)."""
+    if len(features) != 1:
+        raise ValueError("Ожидаются признаки ровно одного объекта")
+
+    ordered_features = features.loc[:, model.feature_names_]
+    prediction = np.asarray(
+        model.predict(ordered_features),
+        dtype=float,
+    )
+
+    expected_shape = (1, len(taus))
+    if prediction.shape != expected_shape:
+        raise ValueError(
+            f"Неверная форма прогноза: {prediction.shape}, "
+            f"ожидалась {expected_shape}"
+        )
+
+    if not np.isfinite(prediction).all():
+        raise ValueError("Модель вернула некорректные значения квантилей")
+
+    return np.sort(prediction, axis=1)
 
 def make_quantile_chart(quantiles: torch.Tensor) -> plt.Figure:
     q = quantiles.detach().cpu().numpy().flatten()

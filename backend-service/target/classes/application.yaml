@@ -32,6 +32,11 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+
 server:
   port: 8080
 
@@ -53,6 +58,7 @@ app:
       - text/csv
       - application/csv
       - text/plain
+      - application/vnd.ms-excel
   rabbitmq:
     img-queue-name: astroml.img
     chart-queue-name: astroml.chart

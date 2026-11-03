@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.Map;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -36,13 +38,24 @@ public class UploadFileRestController {
         if (user == null) {
             return ResponseEntity.status(401).build();
         }
-        if (imgFile.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
+
 
         AnalysisTaskResponse response = analysisService.submit(user, modelId, imgFile);
 
         return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, String>> handleInputError(
+            ResponseStatusException exception
+    ) {
+        String message = exception.getReason() == null
+                ? "Ошибка загрузки файла"
+                : exception.getReason();
+
+        return ResponseEntity
+                .status(exception.getStatusCode())
+                .body(Map.of("message", message));
     }
 
 }

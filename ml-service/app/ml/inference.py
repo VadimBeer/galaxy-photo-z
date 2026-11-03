@@ -104,9 +104,6 @@ def make_quantile_chart(quantiles, taus=None) -> plt.Figure:
     ax.plot(z_grid, pdf, label="Условная плотность")
     ax.set_xlabel("z", fontsize=14)
     ax.set_ylabel("Плотность", fontsize=14)
-    ax.set_title(
-        f"Интервал квантилей {taus[0]:.2f}–{taus[-1]:.2f}"
-    )
     ax.tick_params(labelsize=12)
     ax.legend()
     fig.tight_layout()

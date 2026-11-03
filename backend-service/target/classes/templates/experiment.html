@@ -28,7 +28,8 @@
         <div class="experiment-actions">
             <button id="download-experiment"
                     class="experiment-download"
-                    type="button">
+                    type="button"
+                    disabled >
                 Скачать график
             </button>
 
@@ -48,6 +49,11 @@
     </p>
 
     <div id="experiment-content" hidden>
+        <p id="experiment-error"
+           class="experiment-message"
+           role="alert"
+           hidden></p>
+
         <div class="experiment-grid">
             <section class="card">
                 <h2>Исходные данные</h2>
@@ -94,6 +100,9 @@
 
                     <dt>Модель</dt>
                     <dd id="experiment-model">—</dd>
+
+                    <dt>Статус</dt>
+                    <dd id="experiment-state" aria-live="polite">—</dd>
 
                     <dt>Медиана</dt>
                     <dd id="experiment-median">—</dd>

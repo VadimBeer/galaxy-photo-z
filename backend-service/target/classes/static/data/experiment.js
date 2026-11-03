@@ -104,7 +104,78 @@ function renderInputFile(experiment) {
     }
 }
 
+function renderTaskState(experiment) {
+    const labels = {
+        PENDING: 'Ожидает обработки',
+        PROCESSING: 'Обрабатывается',
+        COMPLETED: 'Завершён',
+        FAILED: 'Ошибка обработки'
+    };
+
+    setText(
+        'experiment-state',
+        labels[experiment.state] ?? 'Статус неизвестен'
+    );
+
+    const errorEl = document.getElementById('experiment-error');
+    const failed = experiment.state === 'FAILED';
+
+    errorEl.textContent = failed
+        ? (
+            experiment.errorMessage
+            || 'Обработка завершилась ошибкой без описания причины.'
+        )
+        : '';
+
+    errorEl.hidden = !failed;
+}
+
+function renderResultChart(experiment) {
+    const completed = experiment.state === 'COMPLETED';
+
+    const chartAvailable = completed
+        && experiment.chartId != null
+        && Boolean(experiment.chartUrl);
+
+    document.getElementById('download-experiment').disabled =
+        !chartAvailable;
+
+    showImage(
+        'experiment-chart',
+        'chart-message',
+        chartAvailable ? experiment.chartUrl : null
+    );
+
+    if (chartAvailable) {
+        return;
+    }
+
+    const message = document.getElementById('chart-message');
+
+    switch (experiment.state) {
+        case 'PENDING':
+        case 'PROCESSING':
+            message.textContent =
+                'Результат ещё не готов. Нажмите «Обновить» позже.';
+            break;
+
+        case 'FAILED':
+            message.textContent =
+                'График не создан из-за ошибки обработки.';
+            break;
+
+        case 'COMPLETED':
+            message.textContent =
+                'Обработка завершена, но график недоступен.';
+            break;
+
+        default:
+            message.textContent = 'График пока недоступен.';
+    }
+}
+
 function renderExperiment(experiment) {
+    renderTaskState(experiment);
     const title = `Эксперимент №${experiment.taskId}`;
 
     setText('experiment-title', title);
@@ -133,11 +204,7 @@ function renderExperiment(experiment) {
 
     renderInputFile(experiment);
 
-    showImage(
-        'experiment-chart',
-        'chart-message',
-        experiment.chartUrl
-    );
+    renderResultChart(experiment);
 
     const quantiles = Array.isArray(experiment.quantiles)
         ? experiment.quantiles
@@ -169,6 +236,7 @@ function renderExperiment(experiment) {
 }
 
 async function getExperiment() {
+    document.getElementById('download-experiment').disabled = true;
     contentEl.hidden = true;
     messageEl.hidden = false;
     messageEl.textContent = 'Загрузка эксперимента…';

@@ -37,8 +37,9 @@ async function downloadChart() {
     } catch (error) {
         console.error(error);
 
-        document.getElementById('experiment-message').textContent =
-            'Не удалось скачать график';
+        const message = document.getElementById('experiment-message');
+        message.textContent = 'Не удалось скачать график';
+        message.hidden = false;
     } finally {
         downloadButton.disabled = false;
     }

@@ -8,3 +8,6 @@ databaseChangeLog:
   - include:
       file: db/changelog/v3_seed_models.sql
       relativeToChangelogFile: false
+  - include:
+      file: db/changelog/v4_seed_catboost.sql
+      relativeToChangelogFile: false
